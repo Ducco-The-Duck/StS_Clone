@@ -24,11 +24,11 @@ class Block(Card):
 
     def __init__(self):
         super().__init__('Block', 'Gain 6 armour.')
-        self.block = 6
+        self.armour = 6
         self.types = ['skill']
 
     def effect(self, player, enemies):
-        player.block += self.block
+        player.armour += self.armour
 
 
 class Cleave(Card):

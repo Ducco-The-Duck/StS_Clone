@@ -4,5 +4,6 @@ class Player:
 
     def __init__(self):
         self.name = 'Player'
-        self.health = 80
-        self.block = 0
+        self.hp = 80
+        self.armour = 0
+        self.vuln_turns = 0

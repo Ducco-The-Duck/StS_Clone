@@ -40,15 +40,19 @@ class GameManager:
             action.effect(self.player, self.enemies)
 
     def enemies_turn(self):
-        pass
+        for enemy in self.enemies:
+            enemy.take_action(self.player)
 
     def print_stats(self):
         print('Player Stats:')
-        print('Health: ' + str(self.player.health))
-        print('Armour: ' + str(self.player.block))
+        print('Health: ' + str(self.player.hp))
+        print('Armour: ' + str(self.player.armour))
+        if self.player.vuln_turns > 0:
+            print('Vulnerable for ' + str(self.player.vuln_turns) + ' turns')
         print('\nEnemy Stats:')
         for enemy in self.enemies:
             print(enemy.name + ' health: ' + str(enemy.hp))
 
     def end_turn(self):
-        self.player.block = 0
+        self.player.armour = 0
+        self.player.vuln_turns = self.player.vuln_turns - 1 if self.player.vuln_turns > 0 else 0
