@@ -20,4 +20,5 @@ while True:
 
     game_manager.encounter(enemies)
     if player.hp <= 0:
+        print('You have died.')
         break
