@@ -1,20 +1,25 @@
-import cards
+import attack_cards
+import skill_cards
 import numpy as np
+
 
 class GameManager:
 
     def __init__(self, player):
         self.enemies = None
         self.player = player
-        self.card_list = [cards.Slash(), cards.Block(), cards.Cleave()]
+        self.card_list = [attack_cards.Slash, skill_cards.Block, attack_cards.Cleave]
 
     def configure_enemy(self, enemies):
         self.enemies = enemies
 
+    def start_turn(self):
+        self.player.armour = 0
+
     def take_action(self):
-        choice1 = self.card_list[np.random.randint(len(self.card_list))]
-        choice2 = self.card_list[np.random.randint(len(self.card_list))]
-        choice3 = self.card_list[np.random.randint(len(self.card_list))]
+        choice1 = self.card_list[np.random.randint(len(self.card_list))]()
+        choice2 = self.card_list[np.random.randint(len(self.card_list))]()
+        choice3 = self.card_list[np.random.randint(len(self.card_list))]()
         play_dict = {choice1.name: choice1, choice2.name: choice2, choice3.name: choice3}
         print('Pick a card: ' + choice1.name + ", " + choice2.name + ", " + choice3.name)
 
@@ -38,6 +43,12 @@ class GameManager:
                 raise "GameManager.enemies length is not positive"
         else:
             action.effect(self.player, self.enemies)
+        del choice1
+        del choice2
+        del choice3
+
+    def end_turn(self):
+        self.player.vuln_turns = self.player.vuln_turns - 1 if self.player.vuln_turns > 0 else 0
 
     def enemies_turn(self):
         for enemy in self.enemies:
@@ -52,7 +63,3 @@ class GameManager:
         print('\nEnemy Stats:')
         for enemy in self.enemies:
             print(enemy.name + ' health: ' + str(enemy.hp))
-
-    def end_turn(self):
-        self.player.armour = 0
-        self.player.vuln_turns = self.player.vuln_turns - 1 if self.player.vuln_turns > 0 else 0

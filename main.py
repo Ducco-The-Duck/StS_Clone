@@ -1,5 +1,4 @@
 import numpy as np
-import cards
 import enemies as nmy
 from game_manager import GameManager
 from characters import Player
@@ -22,6 +21,7 @@ while True:
     encounter_ongoing = True
 
     while encounter_ongoing:
+        game_manager.start_turn()
         game_manager.configure_enemy(enemies)
         game_manager.print_stats()
         game_manager.take_action()
