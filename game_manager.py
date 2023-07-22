@@ -10,9 +10,6 @@ class GameManager:
         self.player = player
         self.card_list = [attack_cards.Slash, skill_cards.Block, attack_cards.Cleave]
 
-    def configure_enemy(self, enemies):
-        self.enemies = enemies
-
     def start_turn(self):
         self.player.armour = 0
 
@@ -63,3 +60,44 @@ class GameManager:
         print('\nEnemy Stats:')
         for enemy in self.enemies:
             print(enemy.name + ' health: ' + str(enemy.hp))
+
+    def resolution_check(self):
+        del_index = []
+        for i, enemy in enumerate(self.enemies):
+            if enemy.hp <= 0:
+                del_index.append(i)
+        for i in del_index:
+            del self.enemies[i]
+
+        return self.player.hp <= 0 or self.enemies == []
+
+    def encounter_turn(self):
+        self.start_turn()
+        if self.resolution_check():
+            return False
+        self.print_stats()
+        self.take_action()
+        if self.resolution_check():
+            return False
+        self.end_turn()
+        if self.resolution_check():
+            return False
+        self.enemies_turn()
+        if self.resolution_check():
+            return False
+        return True
+
+    def encounter(self, enemies):
+
+        self.enemies = enemies
+        del enemies
+        msg = 'Your enemy is '
+        for enemy in self.enemies[:-1]:
+            msg += enemy.name + ', '
+        msg += self.enemies[-1].name + '.\n'
+        print(msg)
+        encounter_on = True
+        while encounter_on:
+            encounter_on = self.encounter_turn()
+
+        print('The encounter is finished.')

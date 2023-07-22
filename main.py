@@ -17,17 +17,7 @@ while True:
     enemies = []
     for _ in range(num_enemies):
         enemies.append(enemy_type())
-    print('Your foe is ' + str(num_enemies) + ' ' + enemies[0].name)
-    encounter_ongoing = True
 
-    while encounter_ongoing:
-        game_manager.start_turn()
-        game_manager.configure_enemy(enemies)
-        game_manager.print_stats()
-        game_manager.take_action()
-        game_manager.end_turn()
-        game_manager.enemies_turn()
-        encounter_ongoing = False
-        for enemy in enemies:
-            encounter_ongoing = encounter_ongoing or enemy.hp > 0
-
+    game_manager.encounter(enemies)
+    if player.hp <= 0:
+        break

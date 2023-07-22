@@ -11,11 +11,11 @@ class Enemy:
     @staticmethod
     def damage(player, damage):
         if player.armour > 0:
-            player.armour -= damage + damage * (0.5 * np.sign(player.vuln_turns))
+            player.armour -= damage + int(damage * (0.5 * np.sign(player.vuln_turns)))
             if player.armour < 0:
                 player.hp += player.armour
         else:
-            player.hp -= damage + damage * (0.5 * np.sign(player.vuln_turns))
+            player.hp -= damage + int(damage * (0.5 * np.sign(player.vuln_turns)))
 
 
 class Rooster(Enemy):
