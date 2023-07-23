@@ -28,30 +28,28 @@ class GameManager:
     def take_action(self):
         while True:
             play_dict = []
-            play_dict_keys = []
             print('You have ' + str(self.mana) + ' mana.')
             hand_msg = 'Your hand is '
             for card in self.hand[:-1]:
                 obj = card()
-                play_dict.append((obj.name, obj))
-                play_dict_keys.append(obj.name)
+                play_dict.append(obj)
                 hand_msg += obj.name + ', '
                 del obj
             obj = self.hand[-1]()
-            play_dict.append((obj.name, obj))
-            play_dict_keys.append(obj.name)
+            play_dict.append(obj)
             hand_msg += obj.name + '.'
             del obj
             print(hand_msg)
+            print('Please enter a card position.')
 
             play = input('')
-            while play not in play_dict_keys + ['End Turn']:
-                print('Please enter card name, or End Turn.')
+            while play not in list(map(lambda x: str(x), range(len(self.hand) + 1)[1:])) + ['End Turn']:
+                print('Please enter card position, or End Turn.')
                 play = input('')
             if play == 'End Turn':
                 break
-            index = play_dict_keys.index(play)
-            action = list(map(lambda x: x[1], play_dict))[index]
+            play = int(play) - 1
+            action = play_dict[play]
 
             if action.cost <= self.mana:
                 self.mana -= action.cost
@@ -76,7 +74,7 @@ class GameManager:
                 if self.resolution_check():
                     return True
 
-                self.discard(index)
+                self.discard(play)
             else:
                 print('You dont have enough mana to play this.')
 
@@ -125,6 +123,12 @@ class GameManager:
 
         return self.player.hp <= 0 or self.enemies == []
 
+    def combat_start(self):
+        self.draw_pile = self.deck.copy()
+        self.hand = []
+        self.discard_pile = []
+        shuffle(self.draw_pile)
+
     def encounter_turn(self):
         self.print_stats()
         if self.start_turn():
@@ -146,7 +150,7 @@ class GameManager:
             msg += enemy.name + ', '
         msg += self.enemies[-1].name + '.\n'
         print(msg)
-        shuffle(self.draw_pile)
+        self.combat_start()
         encounter_on = True
         while encounter_on:
             encounter_on = self.encounter_turn()

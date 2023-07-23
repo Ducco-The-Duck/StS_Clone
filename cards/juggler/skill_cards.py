@@ -18,4 +18,5 @@ class JuggleKnives(SkillCard):
         super().__init__('Juggle Knives', 'Your next 3 attacks toss a knife, dealing 3 damage to a random enemy.', 1)
 
     def effect(self, player, enemies):
+        print('The Juggler juggles knives.')
         player.knives += 3
