@@ -52,7 +52,7 @@ class GameManager:
             enemy.take_action(self.player)
 
     def print_stats(self):
-        print('Player Stats:')
+        print(self.player.name + ' Stats:')
         print('Health: ' + str(self.player.hp))
         print('Armour: ' + str(self.player.armour))
         if self.player.vuln_turns > 0:

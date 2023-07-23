@@ -17,7 +17,6 @@ class Cleave(AttackCard):
     def __init__(self):
         super().__init__('Cleave', 'Deal 8 damage to all enemies.')
         self.damage = 8
-        self.types = ['attack']
 
     def effect(self, player, enemies):
         for enemy in enemies:
