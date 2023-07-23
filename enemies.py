@@ -14,7 +14,7 @@ class Rooster(Enemy):
         super().__init__('Rooster', 40 + np.random.randint(6))
 
     def claw(self, player):
-        print('The Roosters claws at you.')
+        print('The Rooster claws at you.')
         damage = 8
         self.deal_damage(player, damage)
 

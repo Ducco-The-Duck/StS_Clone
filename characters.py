@@ -8,9 +8,10 @@ import cards.juggler.skill_cards
 
 class Player(Unit):
 
-    def __init__(self, name, hp, cards_folder):
+    def __init__(self, name, hp, cards_folder, deck):
         super().__init__(name, hp)
         self.cards = self._gen_cards(cards_folder)
+        self.deck = deck
 
     @staticmethod
     def _gen_cards(cards_folder):
@@ -27,7 +28,18 @@ class Player(Unit):
 class TheJuggler(Player):
 
     def __init__(self):
-        super().__init__('The Juggler', 72, cards.juggler)
+        super().__init__('The Juggler', 72, cards.juggler,
+                         [
+                             cards.juggler.attack_cards.KnifeToss,
+                             cards.juggler.attack_cards.KnifeToss,
+                             cards.juggler.attack_cards.KnifeToss,
+                             cards.juggler.attack_cards.KnifeToss,
+                             cards.juggler.skill_cards.Block,
+                             cards.juggler.skill_cards.Block,
+                             cards.juggler.skill_cards.Block,
+                             cards.juggler.skill_cards.Block,
+                             cards.juggler.skill_cards.JuggleKnives
+                         ])
 
 
 class TheHighPriestess(Player):

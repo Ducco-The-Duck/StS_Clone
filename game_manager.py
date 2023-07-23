@@ -1,5 +1,6 @@
 from cards.cards import AttackCard, SkillCard
 import numpy as np
+from random import shuffle
 
 
 class GameManager:
@@ -8,23 +9,36 @@ class GameManager:
         self.enemies = None
         self.player = player
         self.card_list = self.player.cards
+        self.deck = self.player.deck
+        self.draw_pile = self.deck.copy()
+        self.hand = []
+        self.discard_pile = []
 
     def start_turn(self):
         self.player.armour = 0
+        self.draw_cards(5)
 
         for enemy in self.enemies:
             enemy.vuln_turns = enemy.vuln_turns - 1 if enemy.vuln_turns > 0 else 0
 
     def take_action(self):
-        choice1 = self.card_list[np.random.randint(len(self.card_list))]()
-        choice2 = self.card_list[np.random.randint(len(self.card_list))]()
-        choice3 = self.card_list[np.random.randint(len(self.card_list))]()
-        play_dict = {choice1.name: choice1, choice2.name: choice2, choice3.name: choice3}
-        print('Pick a card: ' + choice1.name + ", " + choice2.name + ", " + choice3.name)
+        play_dict = {}
+        hand_msg = 'Your hand is '
+        for card in self.hand[:-1]:
+            obj = card()
+            play_dict[obj.name] = obj
+            hand_msg += obj.name + ', '
+            del obj
+        obj = self.hand[-1]()
+        play_dict[obj.name] = obj
+        hand_msg += obj.name + '.'
+        del obj
+
+        print(hand_msg)
 
         play = input('')
-        while play not in [choice1.name, choice2.name, choice3.name]:
-            print('Please enter card choice name.')
+        while play not in list(play_dict.keys()):
+            print('Please enter card name.')
             play = input('')
         action = play_dict[play]
 
@@ -46,9 +60,8 @@ class GameManager:
         if isinstance(action, AttackCard) and self.player.knives > 0:
             self.player.deal_damage(self.enemies[np.random.randint(len(self.enemies))], self.player.knives_dmg)
 
-        del choice1
-        del choice2
-        del choice3
+        for _ in range(len(self.hand)):
+            self.discard_pile.append(self.hand.pop())
 
     def end_turn(self):
         self.player.vuln_turns = self.player.vuln_turns - 1 if self.player.vuln_turns > 0 else 0
@@ -58,6 +71,15 @@ class GameManager:
     def enemies_turn(self):
         for enemy in self.enemies:
             enemy.take_action(self.player)
+
+    def draw_cards(self, draw_number):
+        while draw_number > 0:
+            if not self.draw_pile:
+                self.draw_pile = self.discard_pile
+                self.discard_pile = []
+                shuffle(self.draw_pile)
+            self.hand.append(self.draw_pile.pop())
+            draw_number -= 1
 
     def print_stats(self):
         print('Player Stats:')
@@ -101,6 +123,7 @@ class GameManager:
             msg += enemy.name + ', '
         msg += self.enemies[-1].name + '.\n'
         print(msg)
+        shuffle(self.draw_pile)
         encounter_on = True
         while encounter_on:
             encounter_on = self.encounter_turn()

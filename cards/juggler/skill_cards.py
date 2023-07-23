@@ -11,6 +11,7 @@ class Block(SkillCard):
         print('The Juggler uses Block.')
         player.armour += self.armour
 
+
 class JuggleKnives(SkillCard):
     
     def __init__(self):
