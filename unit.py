@@ -23,6 +23,7 @@ class Unit:
 
     def print_status(self):
         print(self.name + ' Health: ' + str(self.hp))
-        print(self.name + ' Armour: ' + str(self.armour))
+        if self.armour > 0:
+            print(self.name + ' Armour: ' + str(self.armour))
         if self.vuln_turns > 0:
             print('Vulnerable for ' + str(self.vuln_turns) + ' turns')
