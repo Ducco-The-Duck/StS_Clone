@@ -12,6 +12,9 @@ class GameManager:
     def start_turn(self):
         self.player.armour = 0
 
+        for enemy in self.enemies:
+            enemy.armour = 0
+
     def take_action(self):
         choice1 = self.card_list[np.random.randint(len(self.card_list))]()
         choice2 = self.card_list[np.random.randint(len(self.card_list))]()

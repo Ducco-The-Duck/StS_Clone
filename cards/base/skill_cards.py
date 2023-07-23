@@ -8,4 +8,5 @@ class Block(SkillCard):
         self.armour = 6
 
     def effect(self, player, enemies):
+        print('The Player uses Block.')
         player.armour += self.armour

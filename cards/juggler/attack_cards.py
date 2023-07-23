@@ -1,15 +1,19 @@
 from cards.cards import AttackCard
+import numpy as np
 
 
-class Slash(AttackCard):
+class BallToss(AttackCard):
 
     def __init__(self):
-        super().__init__('Slash', 'Deal 8 damage to an enemy.')
-        self.damage = 8
+        super().__init__('Ball Toss', 'Deal 7 damage to an enemy and then 2 to a random enemy.')
+        self.damage = 7
+        self.bounce_dmg = 2
         self.tags = ['targetable']
 
     def effect(self, player, enemies, target):
-        enemies[target].hp -= self.damage
+        print('The Juggler uses Ball Toss.')
+        player.deal_damage(enemies[target], self.damage)
+        player.deal_damage(enemies[np.random.randint(len(enemies))], self.bounce_dmg)
 
 
 class Cleave(AttackCard):
@@ -19,5 +23,6 @@ class Cleave(AttackCard):
         self.damage = 8
 
     def effect(self, player, enemies):
+        print('The Juggler uses Cleave.')
         for enemy in enemies:
-            enemy.hp -= self.damage
+            player.deal_damage(enemy, self.damage)

@@ -9,7 +9,8 @@ class Slash(AttackCard):
         self.tags = ['targetable']
 
     def effect(self, player, enemies, target):
-        enemies[target].hp -= self.damage
+        print('The Juggler uses Slash.')
+        player.deal_damage(enemies[target], self.damage)
 
 
 class Cleave(AttackCard):
@@ -19,5 +20,6 @@ class Cleave(AttackCard):
         self.damage = 8
 
     def effect(self, player, enemies):
+        print('The Juggler uses Cleave.')
         for enemy in enemies:
-            enemy.hp -= self.damage
+            player.deal_damage(enemy, self.damage)

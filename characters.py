@@ -1,25 +1,26 @@
 import inspect
-import cards.base
-import cards.juggler
+from unit import Unit
+import cards.base.attack_cards
+import cards.base.skill_cards
+import cards.juggler.attack_cards
+import cards.juggler.skill_cards
 
 
-class Player:
+class Player(Unit):
 
     def __init__(self, name, hp, cards_folder):
-        self.name = name
-        self.hp = hp
-        self.armour = 0
-        self.vuln_turns = 0
+        super().__init__(name, hp)
         self.cards = self._gen_cards(cards_folder)
 
     @staticmethod
     def _gen_cards(cards_folder):
         cards_list = []
-        for name, obj in inspect.getmembers(cards_folder):
-            if name == 'attack_cards' or name == 'skill_cards':
-                for n, ob in inspect.getmembers(obj):
-                    if inspect.isclass(ob) and n != 'AttackCard' and n != 'SkillCard':
-                        cards_list.append(ob)
+        for n, ob in inspect.getmembers(cards_folder.attack_cards):
+            if inspect.isclass(ob) and n != 'AttackCard':
+                cards_list.append(ob)
+        for n, ob in inspect.getmembers(cards_folder.skill_cards):
+            if inspect.isclass(ob) and n != 'SkillCard':
+                cards_list.append(ob)
         return cards_list
 
 
@@ -27,7 +28,6 @@ class TheJuggler(Player):
 
     def __init__(self):
         super().__init__('The Juggler', 72, cards.juggler)
-        print(self.cards)
 
 
 class TheHighPriestess(Player):
