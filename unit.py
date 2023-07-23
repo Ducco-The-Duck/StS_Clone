@@ -1,5 +1,7 @@
 import numpy as np
-class Unit():
+
+
+class Unit:
     
     def __init__(self, name, hp):
         self.name = name
@@ -7,6 +9,8 @@ class Unit():
         self.armour = 0
         self.vuln_turns = 0
         self.strength = 0
+        self.knives = 0
+        self.knives_dmg = 3
 
     def deal_damage(self, target, damage):
         if target.armour > 0:
@@ -16,3 +20,9 @@ class Unit():
         else:
             target.hp -= int(damage + self.strength * (1 + 0.5 * np.sign(target.vuln_turns)))
         print(self.name + ' deals damage to ' + target.name + '.')
+
+    def print_status(self):
+        print(self.name + ' Health: ' + str(self.hp))
+        print(self.name + ' Armour: ' + str(self.armour))
+        if self.vuln_turns > 0:
+            print('Vulnerable for ' + str(self.vuln_turns) + ' turns')

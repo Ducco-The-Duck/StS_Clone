@@ -12,7 +12,7 @@ enemy_list = [nmy.Rooster]
 while True:
 
     enemy_type = enemy_list[np.random.randint(len(enemy_list))]
-    num_enemies = np.random.randint(3) + 1
+    num_enemies = np.random.randint(2) + 1
 
     enemies = []
     for _ in range(num_enemies):

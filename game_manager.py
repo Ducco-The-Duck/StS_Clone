@@ -1,4 +1,4 @@
-from cards.base import skill_cards, attack_cards
+from cards.cards import AttackCard, SkillCard
 import numpy as np
 
 
@@ -13,7 +13,7 @@ class GameManager:
         self.player.armour = 0
 
         for enemy in self.enemies:
-            enemy.armour = 0
+            enemy.vuln_turns = enemy.vuln_turns - 1 if enemy.vuln_turns > 0 else 0
 
     def take_action(self):
         choice1 = self.card_list[np.random.randint(len(self.card_list))]()
@@ -42,26 +42,29 @@ class GameManager:
                 raise "GameManager.enemies length is not positive"
         else:
             action.effect(self.player, self.enemies)
+
+        if isinstance(action, AttackCard) and self.player.knives > 0:
+            self.player.deal_damage(self.enemies[np.random.randint(len(self.enemies))], self.player.knives_dmg)
+
         del choice1
         del choice2
         del choice3
 
     def end_turn(self):
         self.player.vuln_turns = self.player.vuln_turns - 1 if self.player.vuln_turns > 0 else 0
+        for enemy in self.enemies:
+            enemy.armour = 0
 
     def enemies_turn(self):
         for enemy in self.enemies:
             enemy.take_action(self.player)
 
     def print_stats(self):
-        print(self.player.name + ' Stats:')
-        print('Health: ' + str(self.player.hp))
-        print('Armour: ' + str(self.player.armour))
-        if self.player.vuln_turns > 0:
-            print('Vulnerable for ' + str(self.player.vuln_turns) + ' turns')
+        print('Player Stats:')
+        self.player.print_status()
         print('\nEnemy Stats:')
         for enemy in self.enemies:
-            print(enemy.name + ' health: ' + str(enemy.hp))
+            enemy.print_status()
 
     def resolution_check(self):
         del_index = []

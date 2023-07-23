@@ -9,17 +9,19 @@ class Slash(AttackCard):
         self.tags = ['targetable']
 
     def effect(self, player, enemies, target):
-        print('The Juggler uses Slash.')
+        print('The Player uses Slash.')
         player.deal_damage(enemies[target], self.damage)
 
 
-class Cleave(AttackCard):
+class Bash(AttackCard):
 
     def __init__(self):
-        super().__init__('Cleave', 'Deal 8 damage to all enemies.')
-        self.damage = 8
+        super().__init__('Bash', 'Deal 10 damage and apply 2 Vulnerable to an enemy.')
+        self.tags = ['targetable']
+        self.damage = 10
+        self.vuln_turns = 2
 
-    def effect(self, player, enemies):
-        print('The Juggler uses Cleave.')
-        for enemy in enemies:
-            player.deal_damage(enemy, self.damage)
+    def effect(self, player, enemies, target):
+        print('The Player uses Bash.')
+        player.deal_damage(enemies[target], self.damage)
+        enemies[target].vuln_turns += self.vuln_turns
