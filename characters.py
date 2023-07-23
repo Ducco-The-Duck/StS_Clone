@@ -12,6 +12,7 @@ class Player(Unit):
         super().__init__(name, hp)
         self.cards = self._gen_cards(cards_folder)
         self.deck = deck
+        self.mana = 3
 
     @staticmethod
     def _gen_cards(cards_folder):
@@ -23,6 +24,10 @@ class Player(Unit):
             if inspect.isclass(ob) and n != 'SkillCard':
                 cards_list.append(ob)
         return cards_list
+
+    def print_status(self):
+        print('You have ' + str(self.mana) + ' mana.')
+        super().print_status()
 
 
 class TheJuggler(Player):

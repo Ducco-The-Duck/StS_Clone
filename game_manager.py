@@ -13,64 +13,88 @@ class GameManager:
         self.draw_pile = self.deck.copy()
         self.hand = []
         self.discard_pile = []
+        self.mana = self.player.mana
 
     def start_turn(self):
         self.player.armour = 0
         self.draw_cards(5)
+        self.mana = 3
 
         for enemy in self.enemies:
             enemy.vuln_turns = enemy.vuln_turns - 1 if enemy.vuln_turns > 0 else 0
 
+        return self.resolution_check()
+
     def take_action(self):
-        play_dict = {}
-        hand_msg = 'Your hand is '
-        for card in self.hand[:-1]:
-            obj = card()
-            play_dict[obj.name] = obj
-            hand_msg += obj.name + ', '
+        while True:
+            play_dict = []
+            play_dict_keys = []
+            print('You have ' + str(self.mana) + ' mana.')
+            hand_msg = 'Your hand is '
+            for card in self.hand[:-1]:
+                obj = card()
+                play_dict.append((obj.name, obj))
+                play_dict_keys.append(obj.name)
+                hand_msg += obj.name + ', '
+                del obj
+            obj = self.hand[-1]()
+            play_dict.append((obj.name, obj))
+            play_dict_keys.append(obj.name)
+            hand_msg += obj.name + '.'
             del obj
-        obj = self.hand[-1]()
-        play_dict[obj.name] = obj
-        hand_msg += obj.name + '.'
-        del obj
+            print(hand_msg)
 
-        print(hand_msg)
-
-        play = input('')
-        while play not in list(play_dict.keys()):
-            print('Please enter card name.')
             play = input('')
-        action = play_dict[play]
+            while play not in play_dict_keys + ['End Turn']:
+                print('Please enter card name, or End Turn.')
+                play = input('')
+            if play == 'End Turn':
+                break
+            index = play_dict_keys.index(play)
+            action = list(map(lambda x: x[1], play_dict))[index]
 
-        if 'targetable' in action.tags:
-            if len(self.enemies) > 1:
-                print('Choose a target')
-                target = input('')
-                while target not in map(lambda x: str(x), range(len(self.enemies) + 1)[1:]):
-                    print('Please choose a valid target (enter 1, 2, 3 ...)')
-                    target = input('')
-                action.effect(self.player, self.enemies, int(target) - 1)
-            elif len(self.enemies) == 1:
-                action.effect(self.player, self.enemies, 0)
+            if action.cost <= self.mana:
+                self.mana -= action.cost
+                if 'targetable' in action.tags:
+                    if len(self.enemies) > 1:
+                        print('Choose a target')
+                        target = input('')
+                        while target not in map(lambda x: str(x), range(len(self.enemies) + 1)[1:]):
+                            print('Please choose a valid target (enter 1, 2, 3 ...)')
+                            target = input('')
+                        action.effect(self.player, self.enemies, int(target) - 1)
+                    elif len(self.enemies) == 1:
+                        action.effect(self.player, self.enemies, 0)
+                    else:
+                        raise "GameManager.enemies length is not positive"
+                else:
+                    action.effect(self.player, self.enemies)
+
+                if isinstance(action, AttackCard) and self.player.knives > 0:
+                    self.player.deal_damage(self.enemies[np.random.randint(len(self.enemies))], self.player.knives_dmg)
+
+                if self.resolution_check():
+                    return True
+
+                self.discard(index)
             else:
-                raise "GameManager.enemies length is not positive"
-        else:
-            action.effect(self.player, self.enemies)
-
-        if isinstance(action, AttackCard) and self.player.knives > 0:
-            self.player.deal_damage(self.enemies[np.random.randint(len(self.enemies))], self.player.knives_dmg)
-
-        for _ in range(len(self.hand)):
-            self.discard_pile.append(self.hand.pop())
+                print('You dont have enough mana to play this.')
 
     def end_turn(self):
+        for _ in range(len(self.hand)):
+            self.discard(0)
         self.player.vuln_turns = self.player.vuln_turns - 1 if self.player.vuln_turns > 0 else 0
+
         for enemy in self.enemies:
             enemy.armour = 0
+
+        return self.resolution_check()
 
     def enemies_turn(self):
         for enemy in self.enemies:
             enemy.take_action(self.player)
+
+        return self.resolution_check()
 
     def draw_cards(self, draw_number):
         while draw_number > 0:
@@ -80,6 +104,9 @@ class GameManager:
                 shuffle(self.draw_pile)
             self.hand.append(self.draw_pile.pop())
             draw_number -= 1
+
+    def discard(self, hand_index):
+        self.discard_pile.append(self.hand.pop(hand_index))
 
     def print_stats(self):
         print('Player Stats:')
@@ -99,18 +126,14 @@ class GameManager:
         return self.player.hp <= 0 or self.enemies == []
 
     def encounter_turn(self):
-        self.start_turn()
-        if self.resolution_check():
-            return False
         self.print_stats()
-        self.take_action()
-        if self.resolution_check():
+        if self.start_turn():
             return False
-        self.end_turn()
-        if self.resolution_check():
+        if self.take_action():
             return False
-        self.enemies_turn()
-        if self.resolution_check():
+        if self.end_turn():
+            return False
+        if self.enemies_turn():
             return False
         return True
 

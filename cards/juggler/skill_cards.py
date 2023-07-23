@@ -4,7 +4,7 @@ from cards.cards import SkillCard
 class Block(SkillCard):
 
     def __init__(self):
-        super().__init__('Block', 'Gain 6 armour.')
+        super().__init__('Block', 'Gain 6 armour.', 1)
         self.armour = 6
 
     def effect(self, player, enemies):
@@ -15,7 +15,7 @@ class Block(SkillCard):
 class JuggleKnives(SkillCard):
     
     def __init__(self):
-        super().__init__('Juggle Knives', 'Your next 3 attacks toss a knife, dealing 3 damage to a random enemy.')
+        super().__init__('Juggle Knives', 'Your next 3 attacks toss a knife, dealing 3 damage to a random enemy.', 1)
 
     def effect(self, player, enemies):
         player.knives += 3

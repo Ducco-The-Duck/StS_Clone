@@ -5,7 +5,7 @@ import numpy as np
 class KnifeToss(AttackCard):
 
     def __init__(self):
-        super().__init__('Knife Toss', 'Deal 6 damage to an enemy and 2 damage to a random enemy.')
+        super().__init__('Knife Toss', 'Deal 6 damage to an enemy and 2 damage to a random enemy.', 1)
         self.damage = 6
         self.bounce_dmg = 2
         self.tags = ['targetable']
