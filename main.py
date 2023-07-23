@@ -1,10 +1,10 @@
 import numpy as np
 import enemies as nmy
 from game_manager import GameManager
-from characters import Player
+from characters import TheJuggler
 
 
-player = Player()
+player = TheJuggler()
 game_manager = GameManager(player)
 enemy_list = [nmy.Rooster]
 

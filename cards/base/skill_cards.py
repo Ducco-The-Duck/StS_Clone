@@ -1,4 +1,5 @@
-from cards import SkillCard
+from cards.cards import SkillCard
+
 
 class Block(SkillCard):
 

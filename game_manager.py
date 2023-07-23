@@ -1,5 +1,4 @@
-import attack_cards
-import skill_cards
+from cards.base import skill_cards, attack_cards
 import numpy as np
 
 
@@ -8,7 +7,7 @@ class GameManager:
     def __init__(self, player):
         self.enemies = None
         self.player = player
-        self.card_list = [attack_cards.Slash, skill_cards.Block, attack_cards.Cleave]
+        self.card_list = self.player.cards
 
     def start_turn(self):
         self.player.armour = 0

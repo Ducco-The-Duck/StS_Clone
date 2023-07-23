@@ -1,4 +1,4 @@
-from cards import AttackCard
+from cards.cards import AttackCard
 
 
 class Slash(AttackCard):
