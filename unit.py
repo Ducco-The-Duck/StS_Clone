@@ -11,7 +11,7 @@ class Unit:
         self.strength = 0
 
     def deal_damage(self, target, damage):
-        true_dmg = int(damage + self.strength * (1 + 0.5 * np.sign(target.vuln_turns)))
+        true_dmg = int((damage + self.strength) * (1 + 0.5 * np.sign(target.vuln_turns)))
         if target.armour > 0:
             target.armour -= true_dmg
             if target.armour < 0:

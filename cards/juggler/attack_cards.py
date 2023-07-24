@@ -13,8 +13,7 @@ class KnifeToss(AttackCard):
 
     def effect(self, player, enemies, game_manager, target):
         print('The Juggler uses Knife Toss.')
-        if game_manager.deal_damage(player, enemies[target], self.damage):
-            return True
+        return game_manager.deal_damage(player, enemies[target], self.damage)
 
 
 class Knife(AttackCard):
@@ -34,8 +33,7 @@ class Knife(AttackCard):
 
     def trigger_effect(self, player, enemies, game_manager):
         print('Knife triggered!')
-        if game_manager.deal_damage(player, enemies[np.random.randint(len(enemies))], self.damage):
-            return True
+        return game_manager.deal_damage(player, enemies[np.random.randint(len(enemies))], self.damage)
 
 
 class HeadsYouLose(AttackCard):
