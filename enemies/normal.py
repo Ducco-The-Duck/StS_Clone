@@ -1,14 +1,8 @@
 import numpy as np
-from unit import Unit
+from enemies import NormalEnemy
 
 
-class Enemy(Unit):
-
-    def __init__(self, name, hp):
-        super().__init__(name, hp)
-
-
-class Rooster(Enemy):
+class Rooster(NormalEnemy):
 
     def __init__(self):
         super().__init__('Rooster', 40 + np.random.randint(6))
@@ -27,7 +21,7 @@ class Rooster(Enemy):
         return self.claw(player, game_manager) if np.random.randint(4) < 3 else self.screech(player, game_manager)
 
 
-class Roostling(Enemy):
+class Roostling(NormalEnemy):
 
     def __init__(self):
         super().__init__('Roostling', 15 + np.random.randint(3))

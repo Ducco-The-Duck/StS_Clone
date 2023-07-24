@@ -1,5 +1,4 @@
 from cards.cards import AttackCard, SkillCard
-import numpy as np
 from random import shuffle
 
 

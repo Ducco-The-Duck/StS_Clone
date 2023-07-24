@@ -1,5 +1,4 @@
-import numpy as np
-import enemies as nmy
+import enemies.normal as nmy
 from game_manager import GameManager
 from characters import TheJuggler
 
