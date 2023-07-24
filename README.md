@@ -1,5 +1,7 @@
 A Slay the Spire Clone on the Terminal
 
+card_library.md contains the library of all cards.
+
 Current Functionality:
 1. Players can use cards for various effects.
 2. Players have a deck, and have a functional draw pile, hand, discard pile and purge pile during combat.
