@@ -6,17 +6,11 @@ from characters import TheJuggler
 
 player = TheJuggler()
 game_manager = GameManager(player)
-enemy_list = [nmy.Rooster]
 
 
 while True:
 
-    enemy_type = enemy_list[np.random.randint(len(enemy_list))]
-    num_enemies = np.random.randint(2) + 1
-
-    enemies = []
-    for _ in range(num_enemies):
-        enemies.append(enemy_type())
+    enemies = [nmy.Roostling(), nmy.Rooster(), nmy.Roostling()]
 
     game_manager.encounter(enemies)
     if player.hp <= 0:

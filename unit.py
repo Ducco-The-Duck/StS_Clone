@@ -27,6 +27,13 @@ class Unit:
         self.vuln_turns += duration
         print(self.name + ' is Vulnerable for ' + str(self.vuln_turns) + ' turns (gained ' + str(duration) + ' turns).')
 
+    def gain_str(self, strength):
+        self.strength += strength
+        print(self.name + ' has ' + str(self.strength) + ' Strength (gained ' + str(strength) + ' Strength).')
+
+    def death(self, game_manager):
+        pass
+
     def print_status(self):
         print(self.name + ' Health: ' + str(self.hp))
         if self.armour > 0:

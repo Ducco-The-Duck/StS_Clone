@@ -31,6 +31,7 @@ class GameManager:
 
     def take_action(self):
         while True:
+            self.print_stats()
             print('You have ' + str(self.mana) + ' mana.')
             hand_msg = 'Your hand is '
             for card in self.hand[:-1]:
@@ -99,12 +100,14 @@ class GameManager:
 
     def enemies_turn(self):
         for enemy in self.enemies:
-            enemy.take_action(self.player, self)
+            if enemy.take_action(self.player, self):
+                return True
 
     # =============== Combat cycle functions end here =================
 
     def draw(self, draw_index=-1):
         if not self.draw_pile:
+            print('Reshuffling discard pile into draw pile.')
             self.draw_pile = self.discard_pile
             self.discard_pile = []
             shuffle(self.draw_pile)
@@ -163,9 +166,13 @@ class GameManager:
     def gain_armour(self, unit, armour):
         unit.gain_armour(armour)
 
-    def apply_debuff(self, unit, debuff, duration):
-        debuff_dict = {'vulnerable': unit.increase_vuln}
-        debuff_dict[debuff](duration)
+    def apply_vuln(self, unit, duration):
+        unit.increase_vuln(duration)
+
+    def grant_str(self, unit, strength):
+        unit.gain_str(strength)
+
+    # =========================== Interaction functions end here ===================
 
     def print_stats(self):
         print('Player Stats:')
@@ -179,6 +186,8 @@ class GameManager:
         for i, enemy in enumerate(self.enemies):
             if enemy.hp <= 0:
                 del_index.append(i)
+                if enemy.death(self):
+                    return True
         for i in del_index:
             del self.enemies[i]
 
@@ -197,7 +206,6 @@ class GameManager:
     def encounter_turn(self):
         if self.start_turn():
             return False
-        self.print_stats()
         if self.take_action():
             return False
         if self.end_turn():
