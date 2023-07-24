@@ -13,7 +13,17 @@ Gain 6 armour.
 *(1 mana, Skill)*  
 Add a knife to your draw and discard pile each, then juggle once and draw an attack.
 
+**Tails, I win...**  
+*(1 mana, Skill)*  
+Add a **... Heads, you lose** to your draw pile. Gain 6 armour. 
+
 ### Tokens
 **Knife**  
-*(0 mana, Attack)*  
-Deal 3 damage to an enemy. Draw a card. When drawn, discard this and draw a card. Whenever an attack is played, trigger this from the discard pile.
+*(0 mana, Attack, Knife)*  
+Deal 3 damage to an enemy. Draw a card. **Purge**.  
+Trigger: Deal 3 damage to a random enemy.
+
+**... Heads, you lose**  
+*(0 mana, Attack, Knife)*  
+Deal 6 damage to an enemy. Trigger a knife. Draw a card. **Purge**.  
+Trigger: Deal 6 damage to a random enemy. Trigger a knife.

@@ -30,8 +30,11 @@ Units can gain armour, which takes damage before their hp. Units lose armour at 
 ### Vulnerability and Strength
 Vulnerable units take 50% more damage from attacks. Strength grants added damage to the unit's attacks.
 
+### Discarding Cards
+Discarding a card removes it from its pile and puts it at the top of the discard pile.
+
 ### Knives and Juggling
-Knives are 0 mana attacks which deal 3 damage, draw a card and purge. When a knife is drawn, it is discarded and a card is drawn.
-When an attack is played, knives trigger from the discard pile, dealing 3 damage to a random enemy. Knife damage counts as attack damage, even if triggered.
+Knives are 0 mana attacks which deal damage, draw a card and purge. When a knife is drawn, it is discarded and a card is drawn.
+When an attack is played, knives trigger from the discard pile, dealing damage to a random enemy. Knife damage counts as attack damage, even if triggered.
 
 Juggling once draws and discards a knife.

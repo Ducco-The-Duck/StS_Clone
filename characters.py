@@ -43,7 +43,8 @@ class TheJuggler(Player):
                              cards.juggler.skill_cards.Block,
                              cards.juggler.skill_cards.Block,
                              cards.juggler.skill_cards.Block,
-                             cards.juggler.skill_cards.JuggleKnives
+                             cards.juggler.skill_cards.JuggleKnives,
+                             cards.juggler.skill_cards.TailsIWin
                          ])
 
 

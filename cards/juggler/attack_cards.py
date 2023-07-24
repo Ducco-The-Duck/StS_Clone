@@ -21,8 +21,7 @@ class Knife(AttackCard):
 
     def __init__(self):
         super().__init__('Knife',
-                         'Deal 3 damage to an enemy. Draw a card. Discard when drawn. Whenever an attack is played, '
-                         'play this from the discard pile.',
+                         'Deal 3 damage to an enemy. Draw a card. Purge.',
                          0)
         self.damage = 3
         self.tags = ['targetable', 'knife', 'token', 'purge']
@@ -33,7 +32,30 @@ class Knife(AttackCard):
             return True
         game_manager.draw()
 
-    def effect_upon_attack(self, player, enemies, game_manager):
+    def trigger_effect(self, player, enemies, game_manager):
         print('Knife triggered!')
         if game_manager.deal_damage(player, enemies[np.random.randint(len(enemies))], self.damage):
             return True
+
+
+class HeadsYouLose(AttackCard):
+
+    def __init__(self):
+        super().__init__('... Heads, you lose',
+                         'Deal 6 damage to an enemy. Trigger a knife. Draw a card. Purge.',
+                         0)
+        self.damage = 6
+        self.tags = ['targetable', 'knife', 'token', 'purge']
+
+    def effect(self, player, enemies, game_manager, target):
+        print('The Juggler uses ... Heads, you lose.')
+        if game_manager.deal_damage(player, enemies[target], self.damage):
+            return True
+        game_manager.knife_trigger()
+        game_manager.draw()
+
+    def trigger_effect(self, player, enemies, game_manager):
+        print('Knife triggered!')
+        if game_manager.deal_damage(player, enemies[np.random.randint(len(enemies))], self.damage):
+            return True
+        game_manager.knife_trigger()

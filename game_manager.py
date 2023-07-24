@@ -148,8 +148,8 @@ class GameManager:
     def knife_trigger(self):
         for i, card in enumerate(self.discard_pile):
             if 'knife' in card().tags:
-                card().effect_upon_attack(self.player, self.enemies, self)
                 self.purge(i, self.discard_pile)
+                card().trigger_effect(self.player, self.enemies, self)
                 return
 
         print('You have no knives in your discard pile.')
