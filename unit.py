@@ -9,8 +9,6 @@ class Unit:
         self.armour = 0
         self.vuln_turns = 0
         self.strength = 0
-        self.knives = 0
-        self.knives_dmg = 3
 
     def deal_damage(self, target, damage):
         if target.armour > 0:

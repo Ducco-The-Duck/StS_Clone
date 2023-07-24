@@ -8,7 +8,7 @@ class Slash(AttackCard):
         self.damage = 8
         self.tags = ['targetable']
 
-    def effect(self, player, enemies, target):
+    def effect(self, player, enemies, game_manager, target):
         print('The Player uses Slash.')
         player.deal_damage(enemies[target], self.damage)
 
@@ -21,7 +21,7 @@ class Bash(AttackCard):
         self.damage = 10
         self.vuln_turns = 2
 
-    def effect(self, player, enemies, target):
+    def effect(self, player, enemies, game_manager, target):
         print('The Player uses Bash.')
         player.deal_damage(enemies[target], self.damage)
         enemies[target].vuln_turns += self.vuln_turns
