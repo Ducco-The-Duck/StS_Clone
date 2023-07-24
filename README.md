@@ -13,6 +13,14 @@ Current Functionality:
 7. There is one playable character: The Juggler.
 8. Knives and Juggling are mechanics associated with the Juggler.
 
+Features to be added:
+1. Hand size limit (important)
+2. Viewing deck, discard pile, draw pile etc. (important)
+3. Non combat elements of the game
+4. More cards
+5. More characters
+6. More enemies
+
 ## Mechanics
 ### Blocking with Armour
 Units can gain armour, which takes damage before their hp. Units lose armour at the end of their turns.
