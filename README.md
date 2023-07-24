@@ -38,4 +38,4 @@ Discarding a card removes it from its pile and puts it at the top of the discard
 Knives are 0 mana attacks which deal damage, draw a card and purge. When a knife is drawn, it is discarded and a card is drawn.
 When an attack is played, knives trigger from the discard pile, dealing damage to a random enemy. Knife damage counts as attack damage, even if triggered.
 
-Juggling once draws and discards a knife.
+Juggling once moves a knife from the draw pile to the discard pile.

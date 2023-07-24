@@ -137,9 +137,7 @@ class GameManager:
             print('Juggling ' + str(num) + ' knives.')
             for i, card in enumerate(reversed(self.draw_pile)):
                 if 'knife' in card().tags:
-                    self.hand.append(self.draw_pile.pop(len(self.draw_pile) - 1 - i))
-                    self.discard(-1)
-                    # Changes to draw for full hand considerations must change this too
+                    self.discard_pile.insert(0, self.draw_pile.pop(len(self.draw_pile) - 1 - i))
                     num -= 1
                     if num == 0:
                         return
