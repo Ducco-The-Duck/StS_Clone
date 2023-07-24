@@ -20,12 +20,14 @@ class GameManager:
         self.are_knives_being_used = False
 
     def start_turn(self):
+
+        for enemy in self.enemies:
+            enemy.vuln_turns = enemy.vuln_turns - 1 if enemy.vuln_turns > 0 else 0
+
         self.player.armour = 0
         for _ in range(5):
             self.draw()
         self.mana = 3
-
-        return self.resolution_check()
 
     def take_action(self):
         while True:
@@ -80,9 +82,6 @@ class GameManager:
                     if self.are_knives_being_used:
                         self.knife_trigger()
 
-                if self.resolution_check():
-                    return True
-
                 if 'purge' in action.tags:
                     self.purge(play, self.hand)
                 else:
@@ -95,25 +94,12 @@ class GameManager:
             self.discard(0)
         self.player.vuln_turns = self.player.vuln_turns - 1 if self.player.vuln_turns > 0 else 0
 
-        return self.resolution_check()
-
-    def enemies_start_turn(self):
         for enemy in self.enemies:
             enemy.armour = 0
 
-        return self.resolution_check()
-
     def enemies_turn(self):
         for enemy in self.enemies:
-            enemy.take_action(self.player)
-
-        return self.resolution_check()
-
-    def enemies_end_turn(self):
-        for enemy in self.enemies:
-            enemy.vuln_turns = enemy.vuln_turns - 1 if enemy.vuln_turns > 0 else 0
-
-        return self.resolution_check()
+            enemy.take_action(self.player, self)
 
     # =============== Combat cycle functions end here =================
 
@@ -175,8 +161,11 @@ class GameManager:
         return self.resolution_check()
 
     def gain_armour(self, unit, armour):
-        unit.armour += armour
-        return self.resolution_check()
+        unit.gain_armour(armour)
+
+    def apply_debuff(self, unit, debuff, duration):
+        debuff_dict = {'vulnerable': unit.increase_vuln}
+        debuff_dict[debuff](duration)
 
     def print_stats(self):
         print('Player Stats:')
@@ -213,11 +202,7 @@ class GameManager:
             return False
         if self.end_turn():
             return False
-        if self.enemies_start_turn():
-            return False
         if self.enemies_turn():
-            return False
-        if self.enemies_end_turn():
             return False
         return True
 

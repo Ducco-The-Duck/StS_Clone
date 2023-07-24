@@ -13,14 +13,16 @@ class Rooster(Enemy):
     def __init__(self):
         super().__init__('Rooster', 40 + np.random.randint(6))
 
-    def claw(self, player):
+    def claw(self, player, game_manager):
         print('The Rooster claws at you.')
         damage = 8
-        self.deal_damage(player, damage)
+        game_manager.deal_damage(self, player, damage)
 
-    def screech(self, player):
+    def screech(self, player, game_manager):
         print('The Rooster screeches at you.')
-        player.vuln_turns += 1
+        debuff = 'vulnerable'
+        duration = 1
+        game_manager.apply_debuff(player, debuff, duration)
 
-    def take_action(self, player):
-        self.claw(player) if np.random.randint(4) < 3 else self.screech(player)
+    def take_action(self, player, game_manager):
+        self.claw(player, game_manager) if np.random.randint(4) < 3 else self.screech(player, game_manager)
