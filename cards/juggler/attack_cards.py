@@ -5,7 +5,9 @@ import numpy as np
 class KnifeToss(AttackCard):
 
     def __init__(self):
-        super().__init__('Knife Toss', 'Deal 7 damage to an enemy.', 1)
+        super().__init__('Knife Toss',
+                         'Deal 7 damage to an enemy.',
+                         1)
         self.damage = 7
         self.tags = ['targetable']
 
@@ -17,7 +19,10 @@ class KnifeToss(AttackCard):
 class Knife(AttackCard):
 
     def __init__(self):
-        super().__init__('Knife', 'Deal 3 damage. Draw a card. Discard when drawn. Whenever an attack is played, play this from the discard pile.', 0)
+        super().__init__('Knife',
+                         'Deal 3 damage. Draw a card. Discard when drawn. Whenever an attack is played, '
+                         'play this from the discard pile.',
+                         0)
         self.damage = 3
         self.tags = ['targetable', 'knife', 'token', 'purge']
 

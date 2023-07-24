@@ -16,6 +16,7 @@ class GameManager:
         self.purge_pile = []
         self.mana = self.player.mana
 
+        # Mechanics switches. Using switches for non-omnipresent mechanics for efficiency.
         self.are_knives_being_used = False
 
     def start_turn(self):
@@ -157,7 +158,6 @@ class GameManager:
 
     def knife_trigger(self):
         for i, card in enumerate(self.discard_pile):
-            print(card().name)
             if 'knife' in card().tags:
                 card().effect_upon_attack(self.player, self.enemies, self)
                 self.purge(i, self.discard_pile)

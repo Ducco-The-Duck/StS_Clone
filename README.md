@@ -12,6 +12,9 @@ Current Functionality:
 8. Knives and Juggling are mechanics associated with the Juggler.
 
 ## Mechanics
+### Blocking with Armour
+Units can gain armour, which takes damage before their hp. Units lose armour at the end of their turns.
+
 ### Vulnerability and Strength
 Vulnerable units take 50% more damage from attacks. Strength grants added damage to the unit's attacks.
 

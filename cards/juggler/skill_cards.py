@@ -6,7 +6,9 @@ import numpy as np
 class Block(SkillCard):
 
     def __init__(self):
-        super().__init__('Block', 'Gain 6 armour.', 1)
+        super().__init__('Block',
+                         'Gain 6 armour.',
+                         1)
         self.armour = 6
         self.tags = []
 
@@ -18,7 +20,9 @@ class Block(SkillCard):
 class JuggleKnives(SkillCard):
     
     def __init__(self):
-        super().__init__('Juggle Knives', 'Add a Knife to your draw and discard piles each, then Juggle once and draw an attack.', 0)
+        super().__init__('Juggle Knives',
+                         'Add a Knife to your draw and discard piles each, then Juggle once and draw an attack.',
+                         1)
         self.tags = []
 
     def effect(self, player, enemies, game_manager):
