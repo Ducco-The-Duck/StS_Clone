@@ -10,11 +10,12 @@ Current Functionality:
 6. Cards are divided into two types, have tags such as 'targetable' and each character has an associated list of cards.
 7. There is one playable character: The Juggler.
 
-Current Mechanics:
-1. Tutoring cards based on types.
-2. Discarding cards
-3. Purging cards; purged cards are removed from your deck for the combat.
-4. Vulnerability; units take 50% more damage from attacks when vulnerable.
-5. Strength; units deal added damage with attacks while having some strength.
-6. Knives; Knives are 0 mana attacks. They are discarded when drawn, and are triggered from the discard pile.
-7. Juggling; Juggling once draws a knife and immediately discards it.
+## Mechanics
+### Vulnerability and Strength
+Vulnerable units take 50% more damage from attacks. Strength grants added damage to the unit's attacks.
+
+### Knives and Juggling
+Knives are 0 mana attacks which deal 3 damage, draw a card and purge. When a knife is drawn, it is discarded and a card is drawn.
+When an attack is played, knives trigger from the discard pile, dealing 3 damage to a random enemy. Knife damage counts as attack damage, even if triggered.
+
+Juggling once draws and discards a knife.
