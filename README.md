@@ -9,6 +9,7 @@ Current Functionality:
 5. Players and enemies can die, ending encounters and starting next ones. The state of the player (i.e. hp) is preserved between combats.
 6. Cards are divided into two types, have tags such as 'targetable' and each character has an associated list of cards.
 7. There is one playable character: The Juggler.
+8. Knives and Juggling are mechanics associated with the Juggler.
 
 ## Mechanics
 ### Vulnerability and Strength
