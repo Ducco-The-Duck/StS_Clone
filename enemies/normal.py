@@ -1,5 +1,5 @@
 import numpy as np
-from enemies import NormalEnemy
+from enemies.enemies import NormalEnemy
 
 
 class Rooster(NormalEnemy):
