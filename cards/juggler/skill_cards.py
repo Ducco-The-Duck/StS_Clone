@@ -14,7 +14,8 @@ class Block(SkillCard):
 
     def effect(self, player, enemies, game_manager):
         print('The Juggler uses Block.')
-        player.armour += self.armour
+        if game_manager.gain_armour(player, self.armour):
+            return True
 
 
 class JuggleKnives(SkillCard):

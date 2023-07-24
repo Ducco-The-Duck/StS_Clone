@@ -10,7 +10,8 @@ class Slash(AttackCard):
 
     def effect(self, player, enemies, game_manager, target):
         print('The Player uses Slash.')
-        player.deal_damage(enemies[target], self.damage)
+        if game_manager.deal_damage(player, enemies[target], self.damage):
+            return True
 
 
 class Bash(AttackCard):
@@ -23,5 +24,6 @@ class Bash(AttackCard):
 
     def effect(self, player, enemies, game_manager, target):
         print('The Player uses Bash.')
-        player.deal_damage(enemies[target], self.damage)
+        if game_manager.deal_damage(player, enemies[target], self.damage):
+            return True
         enemies[target].vuln_turns += self.vuln_turns

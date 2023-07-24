@@ -13,14 +13,15 @@ class KnifeToss(AttackCard):
 
     def effect(self, player, enemies, game_manager, target):
         print('The Juggler uses Knife Toss.')
-        player.deal_damage(enemies[target], self.damage)
+        if game_manager.deal_damage(player, enemies[target], self.damage):
+            return True
 
 
 class Knife(AttackCard):
 
     def __init__(self):
         super().__init__('Knife',
-                         'Deal 3 damage. Draw a card. Discard when drawn. Whenever an attack is played, '
+                         'Deal 3 damage to an enemy. Draw a card. Discard when drawn. Whenever an attack is played, '
                          'play this from the discard pile.',
                          0)
         self.damage = 3
@@ -28,9 +29,11 @@ class Knife(AttackCard):
 
     def effect(self, player, enemies, game_manager, target):
         print('The Juggler uses Knife.')
-        player.deal_damage(enemies[target], self.damage)
+        if game_manager.deal_damage(player, enemies[target], self.damage):
+            return True
         game_manager.draw()
 
     def effect_upon_attack(self, player, enemies, game_manager):
         print('Knife triggered!')
-        player.deal_damage(enemies[np.random.randint(len(enemies))], self.damage)
+        if game_manager.deal_damage(player, enemies[np.random.randint(len(enemies))], self.damage):
+            return True

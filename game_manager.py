@@ -62,13 +62,16 @@ class GameManager:
                         while target not in map(lambda x: str(x), range(len(self.enemies) + 1)[1:]):
                             print('Please choose a valid target (enter 1, 2, 3 ...)')
                             target = input('')
-                        action.effect(self.player, self.enemies, self, int(target) - 1)
+                        if action.effect(self.player, self.enemies, self, int(target) - 1):
+                            return True
                     elif len(self.enemies) == 1:
-                        action.effect(self.player, self.enemies, self, 0)
+                        if action.effect(self.player, self.enemies, self, 0):
+                            return True
                     else:
                         raise "GameManager.enemies length is not positive"
                 else:
-                    action.effect(self.player, self.enemies, self)
+                    if action.effect(self.player, self.enemies, self):
+                        return True
 
                 # If chosen card is an Attack
                 if isinstance(action, AttackCard):
@@ -164,6 +167,16 @@ class GameManager:
                 return
 
         print('You have no knives in your discard pile.')
+
+    # ======================== Mechanics functions end here ===================
+
+    def deal_damage(self, dealer, dealee, damage):
+        dealer.deal_damage(dealee, damage)
+        return self.resolution_check()
+
+    def gain_armour(self, unit, armour):
+        unit.armour += armour
+        return self.resolution_check()
 
     def print_stats(self):
         print('Player Stats:')
