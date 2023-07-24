@@ -1,6 +1,7 @@
 A Slay the Spire Clone on the Terminal
 
-card_library.md contains the library of all cards.
+glossary/card_library.md contains the library of all cards.  
+glossary/enemy_library.md contains the library of all enemies.
 
 Current Functionality:
 1. Combat has 4 phases; start of turn, turn, end of turn and enemy turn.
