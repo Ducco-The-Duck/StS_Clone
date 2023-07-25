@@ -53,6 +53,11 @@ class MechanicsManager:
             if card.on_draw(self.cm):
                 del card
                 return True
+
+            for buff in self.cm.ongoing_effect_dict['on_draw']:
+                print(buff.__name__ + ' triggered!')
+                if buff(card):
+                    return True
             del card
         else:
             print('Hand is full!')

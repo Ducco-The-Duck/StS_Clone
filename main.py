@@ -9,7 +9,7 @@ game_manager = GameManager(player)
 
 while True:
 
-    enemies = [nmy.Roostling(), nmy.Rooster(), nmy.Roostling()]
+    enemies = [nmy.Roostling(), nmy.Rooster()]
 
     game_manager.encounter(enemies)
     if player.hp <= 0:
