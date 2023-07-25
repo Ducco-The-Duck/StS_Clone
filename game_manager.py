@@ -108,12 +108,17 @@ class GameManager:
             self.discard_pile = []
             shuffle(self.draw_pile)
         card = self.draw_pile.pop(draw_index)
-        self.hand.append(card)
-        card = card()
-        if card.on_draw(self):
+        if len(self.hand) <= 10:
+            self.hand.append(card)
+            card = card()
+            if card.on_draw(self):
+                del card
+                return True
             del card
-            return True
-        del card
+        else:
+            print('Hand is full!')
+            self.discard_pile.insert(0, card)
+            del card
 
     def draw_by_type(self, card_type):
         for i, card in enumerate(reversed(self.draw_pile)):
