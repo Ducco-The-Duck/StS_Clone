@@ -109,7 +109,8 @@ class GameManager:
             shuffle(self.draw_pile)
         card = self.draw_pile.pop(draw_index)
         self.hand.append(card)
-        if card().on_draw(self):
+        card = card()
+        if card.on_draw(self):
             del card
             return True
         del card
@@ -126,7 +127,8 @@ class GameManager:
     def discard(self, hand_index):
         card = self.hand.pop(hand_index)
         self.discard_pile.insert(0, card)
-        if card().on_discard(self):
+        card = card()
+        if card.on_discard(self):
             del card
             return True
         del card
@@ -134,7 +136,8 @@ class GameManager:
     def purge(self, index, pile):
         card = pile.pop(index)
         self.purge_pile.insert(0, card)
-        if card().on_purge(self):
+        card = card()
+        if card.on_purge(self):
             del card
             return True
         del card
@@ -160,8 +163,6 @@ class GameManager:
                 return card().on_trigger(self)
 
         print('You have no knives in your discard pile.')
-
-    # ======================== Mechanics functions end here ===================
 
     def deal_damage(self, dealer, dealee, damage):
         dealer.deal_damage(dealee, damage)
