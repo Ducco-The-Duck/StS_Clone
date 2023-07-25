@@ -11,6 +11,7 @@ class Player(Unit):
         self.cards = self._gen_cards(cards_folder)
         self.deck = deck
         self.mana = 3
+        self.hand_limit = 10
 
     @staticmethod
     def _gen_cards(cards_folder):

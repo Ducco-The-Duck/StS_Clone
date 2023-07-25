@@ -39,40 +39,22 @@ class GameManager:
             print(hand_msg)
             print('Please enter a card position, or End Turn, or View Piles.')
 
-            play = input('')
-            while play not in list(map(lambda x: str(x), range(len(self.hand) + 1)[1:])) + ['End Turn']:
-                if play == 'View Piles':
+            pos = input('')
+            while pos not in list(map(lambda x: str(x), range(len(self.hand) + 1)[1:])) + ['End Turn']:
+                if pos == 'View Piles':
                     print(self.draw_pile)
                     print(self.hand)
                     print(self.discard_pile)
                     print(self.purge_pile)
                 else:
                     print('Please enter card position, or End Turn, or View Piles.')
-                play = input('')
-            if play == 'End Turn':
+                pos = input('')
+            if pos == 'End Turn':
                 break
 
-            play = int(play) - 1
-            action = self.hand[play]()
-
-            if action.cost <= self.mana:
-                self.mana -= action.cost
-                action.on_play(self)
-
-                # If chosen card is an Attack
-                if 'attack' in action.types:
-
-                    # Knife triggers
-                    if self.are_knives_being_used:
-                        self.knife_trigger()
-
-                if 'purge' in action.keywords:
-                    self.purge(play, self.hand)
-                else:
-                    self.discard(play)
-
-            else:
-                print('You dont have enough mana to play this.')
+            pos = int(pos) - 1
+            if self.play(pos):
+                return True
 
     def end_turn(self):
         for _ in range(len(self.hand)):
@@ -88,6 +70,36 @@ class GameManager:
                 return True
 
     # =============== Combat cycle functions end here =================
+
+    def play(self, hand_index):
+        action = self.hand[hand_index]()
+        if action.cost <= self.mana:
+            self.mana -= action.cost
+            if action.on_play(self):
+                del action
+                return True
+
+            # If chosen card is an Attack
+            if 'attack' in action.types:
+
+                # Knife triggers
+                if self.are_knives_being_used:
+                    if self.knife_trigger():
+                        del action
+                        return True
+
+            if 'purge' in action.keywords:
+                if self.purge(hand_index, self.hand):
+                    del action
+                    return True
+            else:
+                if self.discard(hand_index):
+                    del action
+                    return True
+
+        else:
+            print('You dont have enough mana to play this.')
+        del action
 
     def draw(self, draw_index=-1):
         if not self.draw_pile:
