@@ -61,7 +61,7 @@ class KnifeCard(TargetableCard):
         self.rarity = 'token'
 
     def on_draw(self, game_manager):
-        if game_manager.discard(-1):
+        if game_manager.mm.discard(-1):
             return True
-        if game_manager.draw():
+        if game_manager.mm.draw():
             return True

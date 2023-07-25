@@ -1,5 +1,6 @@
 from cards.cards import *
 from random import shuffle
+from mechanics_manager import MechanicsManager
 
 
 class GameManager:
@@ -14,6 +15,7 @@ class GameManager:
         self.discard_pile = []
         self.purge_pile = []
         self.mana = self.player.mana
+        self.mm = MechanicsManager(self)
 
         # Mechanics switches. Using switches for non-omnipresent mechanics for efficiency.
         self.are_knives_being_used = False
@@ -25,7 +27,7 @@ class GameManager:
 
         self.player.armour = 0
         for _ in range(5):
-            self.draw()
+            self.mm.draw()
         self.mana = 3
 
     def take_action(self):
@@ -53,12 +55,12 @@ class GameManager:
                 break
 
             pos = int(pos) - 1
-            if self.play(pos):
+            if self.mm.play(pos):
                 return True
 
     def end_turn(self):
         for _ in range(len(self.hand)):
-            self.discard(0)
+            self.mm.discard(0)
         self.player.vuln_turns = self.player.vuln_turns - 1 if self.player.vuln_turns > 0 else 0
 
         for enemy in self.enemies:
@@ -71,103 +73,103 @@ class GameManager:
 
     # =============== Combat cycle functions end here =================
 
-    def play(self, hand_index):
-        action = self.hand[hand_index]()
-        if action.cost <= self.mana:
-            self.mana -= action.cost
-            if action.on_play(self):
-                del action
-                return True
-
-            # If chosen card is an Attack
-            if 'attack' in action.types:
-
-                # Knife triggers
-                if self.are_knives_being_used:
-                    if self.knife_trigger():
-                        del action
-                        return True
-
-            if 'purge' in action.keywords:
-                if self.purge(hand_index, self.hand):
-                    del action
-                    return True
-            else:
-                if self.discard(hand_index):
-                    del action
-                    return True
-
-        else:
-            print('You dont have enough mana to play this.')
-        del action
-
-    def draw(self, draw_index=-1):
-        if not self.draw_pile:
-            print('Reshuffling discard pile into draw pile.')
-            self.draw_pile = self.discard_pile
-            self.discard_pile = []
-            shuffle(self.draw_pile)
-        card = self.draw_pile.pop(draw_index)
-        if len(self.hand) <= 10:
-            self.hand.append(card)
-            card = card()
-            if card.on_draw(self):
-                del card
-                return True
-            del card
-        else:
-            print('Hand is full!')
-            self.discard_pile.insert(0, card)
-            del card
-
-    def draw_by_type(self, card_type):
-        for i, card in enumerate(reversed(self.draw_pile)):
-            if card_type in card().types:
-                print('Drew a ' + card().name + '!')
-                if self.draw(len(self.draw_pile) - 1 - i):
-                    return True
-                return
-        print('You have no ' + card_type + 's in your draw pile.')
-
-    def discard(self, hand_index):
-        card = self.hand.pop(hand_index)
-        self.discard_pile.insert(0, card)
-        card = card()
-        if card.on_discard(self):
-            del card
-            return True
-        del card
-
-    def purge(self, index, pile):
-        card = pile.pop(index)
-        self.purge_pile.insert(0, card)
-        card = card()
-        if card.on_purge(self):
-            del card
-            return True
-        del card
-
-    def juggle(self, num=1):
-        if self.are_knives_being_used:
-            print('Juggling ' + str(num) + ' knives.')
-            for i, card in enumerate(reversed(self.draw_pile)):
-                if isinstance(card(), KnifeCard):
-                    self.discard_pile.insert(0, self.draw_pile.pop(len(self.draw_pile) - 1 - i))
-                    num -= 1
-                    if num == 0:
-                        return
-            print('Not enough knives to Juggle! Couldn\'t juggle ' + str(num) + ' knives.')
-        else:
-            print('No knives to Juggle!')
-
-    def knife_trigger(self):
-        for i, card in enumerate(self.discard_pile):
-            if isinstance(card(), KnifeCard):
-                if self.purge(i, self.discard_pile):
-                    return True
-                return card().on_trigger(self)
-
-        print('You have no knives in your discard pile.')
+    # def play(self, hand_index):
+    #     action = self.hand[hand_index]()
+    #     if action.cost <= self.mana:
+    #         self.mana -= action.cost
+    #         if action.on_play(self):
+    #             del action
+    #             return True
+    #
+    #         # If chosen card is an Attack
+    #         if 'attack' in action.types:
+    #
+    #             # Knife triggers
+    #             if self.are_knives_being_used:
+    #                 if self.knife_trigger():
+    #                     del action
+    #                     return True
+    #
+    #         if 'purge' in action.keywords:
+    #             if self.purge(hand_index, self.hand):
+    #                 del action
+    #                 return True
+    #         else:
+    #             if self.discard(hand_index):
+    #                 del action
+    #                 return True
+    #
+    #     else:
+    #         print('You dont have enough mana to play this.')
+    #     del action
+    #
+    # def draw(self, draw_index=-1):
+    #     if not self.draw_pile:
+    #         print('Reshuffling discard pile into draw pile.')
+    #         self.draw_pile = self.discard_pile
+    #         self.discard_pile = []
+    #         shuffle(self.draw_pile)
+    #     card = self.draw_pile.pop(draw_index)
+    #     if len(self.hand) <= 10:
+    #         self.hand.append(card)
+    #         card = card()
+    #         if card.on_draw(self):
+    #             del card
+    #             return True
+    #         del card
+    #     else:
+    #         print('Hand is full!')
+    #         self.discard_pile.insert(0, card)
+    #         del card
+    #
+    # def draw_by_type(self, card_type):
+    #     for i, card in enumerate(reversed(self.draw_pile)):
+    #         if card_type in card().types:
+    #             print('Drew a ' + card().name + '!')
+    #             if self.draw(len(self.draw_pile) - 1 - i):
+    #                 return True
+    #             return
+    #     print('You have no ' + card_type + 's in your draw pile.')
+    #
+    # def discard(self, hand_index):
+    #     card = self.hand.pop(hand_index)
+    #     self.discard_pile.insert(0, card)
+    #     card = card()
+    #     if card.on_discard(self):
+    #         del card
+    #         return True
+    #     del card
+    #
+    # def purge(self, index, pile):
+    #     card = pile.pop(index)
+    #     self.purge_pile.insert(0, card)
+    #     card = card()
+    #     if card.on_purge(self):
+    #         del card
+    #         return True
+    #     del card
+    #
+    # def juggle(self, num=1):
+    #     if self.are_knives_being_used:
+    #         print('Juggling ' + str(num) + ' knives.')
+    #         for i, card in enumerate(reversed(self.draw_pile)):
+    #             if isinstance(card(), KnifeCard):
+    #                 self.discard_pile.insert(0, self.draw_pile.pop(len(self.draw_pile) - 1 - i))
+    #                 num -= 1
+    #                 if num == 0:
+    #                     return
+    #         print('Not enough knives to Juggle! Couldn\'t juggle ' + str(num) + ' knives.')
+    #     else:
+    #         print('No knives to Juggle!')
+    #
+    # def knife_trigger(self):
+    #     for i, card in enumerate(self.discard_pile):
+    #         if isinstance(card(), KnifeCard):
+    #             if self.purge(i, self.discard_pile):
+    #                 return True
+    #             return card().on_trigger(self)
+    #
+    #     print('You have no knives in your discard pile.')
 
     def deal_damage(self, dealer, dealee, damage):
         dealer.deal_damage(dealee, damage)
@@ -208,10 +210,7 @@ class GameManager:
         self.hand = []
         self.discard_pile = []
         shuffle(self.draw_pile)
-        self.turn_mechanics_off()
-
-    def turn_mechanics_off(self):
-        self.are_knives_being_used = False
+        self.mm.turn_mechanics_off()
 
     def encounter_turn(self):
         if self.start_turn():

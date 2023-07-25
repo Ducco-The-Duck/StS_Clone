@@ -56,7 +56,7 @@ class Knife(KnifeCard):
                                     game_manager.enemies[self.pick_target(game_manager)],
                                     self.damage):
             return True
-        return game_manager.draw()
+        return game_manager.mm.draw()
 
     def on_trigger(self, game_manager):
         print('Knife triggered!')
@@ -79,9 +79,9 @@ class HeadsYouLose(KnifeCard):
                                     game_manager.enemies[self.pick_target(game_manager)],
                                     self.damage):
             return True
-        if game_manager.knife_trigger():
+        if game_manager.mm.knife_trigger():
             return True
-        return game_manager.draw()
+        return game_manager.mm.draw()
 
     def on_trigger(self, game_manager):
         print('... Heads, you lose triggered!')
@@ -89,4 +89,4 @@ class HeadsYouLose(KnifeCard):
                                     game_manager.enemies[np.random.randint(len(game_manager.enemies))],
                                     self.damage):
             return True
-        return game_manager.knife_trigger()
+        return game_manager.mm.knife_trigger()

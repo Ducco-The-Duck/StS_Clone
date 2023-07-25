@@ -37,9 +37,9 @@ class JuggleKnives(Card):
         pos2 = np.random.randint(len(game_manager.discard_pile)) if game_manager.discard_pile else 0
         game_manager.draw_pile = game_manager.draw_pile[:pos1] + [Knife] + game_manager.draw_pile[pos1:]
         game_manager.discard_pile = game_manager.discard_pile[:pos2] + [Knife] + game_manager.discard_pile[pos2:]
-        game_manager.are_knives_being_used = True
-        game_manager.juggle()
-        game_manager.draw_by_type('attack')
+        game_manager.mm.knives = True
+        game_manager.mm.juggle()
+        game_manager.mm.draw_by_type('attack')
 
 
 class TailsIWin(Card):
@@ -58,5 +58,5 @@ class TailsIWin(Card):
         print('The Juggler uses Tails, I win...')
         pos1 = np.random.randint(len(game_manager.draw_pile)) if game_manager.draw_pile else 0
         game_manager.draw_pile = game_manager.draw_pile[:pos1] + [HeadsYouLose] + game_manager.draw_pile[pos1:]
-        game_manager.are_knives_being_used = True
+        game_manager.mm.knives = True
         return game_manager.gain_armour(game_manager.player, self.armour)
