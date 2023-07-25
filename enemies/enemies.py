@@ -8,9 +8,3 @@ class Enemy(Unit):
 
     def take_action(self, combat_manager):
         pass
-
-
-class NormalEnemy(Enemy):
-
-    def __init__(self, name, hp):
-        super().__init__(name, hp)
