@@ -1,5 +1,10 @@
+from typing import List, Any
 
 class Card:
+    name: str
+    desc: str
+    cost: int
+    tags: List[Any]
 
     def __init__(self, name='Card', desc='This is a dummy card.', cost=0):
         self.name = name
