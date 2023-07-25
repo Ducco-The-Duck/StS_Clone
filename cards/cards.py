@@ -1,5 +1,6 @@
 from typing import List, Any
 
+
 class Card:
     name: str
     desc: str
