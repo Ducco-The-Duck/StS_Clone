@@ -3,7 +3,7 @@ from mechanics_manager import MechanicsManager
 from ongoing_effect_manager import OngoingEffectManager
 
 
-class GameManager:
+class CombatManager:
 
     def __init__(self, player):
         self.enemies = None
@@ -71,7 +71,7 @@ class GameManager:
 
     def enemies_turn(self):
         for enemy in self.enemies:
-            if enemy.take_action(self.player, self):
+            if enemy.take_action(self):
                 return True
 
     # =============== Combat cycle functions end here =================

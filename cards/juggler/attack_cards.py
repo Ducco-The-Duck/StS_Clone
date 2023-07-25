@@ -14,11 +14,11 @@ class KnifeToss(TargetableCard):
         self.keywords = []
         self.rarity = 'common'
 
-    def on_play(self, game_manager):
+    def on_play(self, combat_manager):
         print('The Juggler uses Knife Toss.')
-        return game_manager.deal_damage(game_manager.player,
-                                        game_manager.enemies[self.pick_target(game_manager)],
-                                        self.damage)
+        return combat_manager.deal_damage(combat_manager.player,
+                                          combat_manager.enemies[self.pick_target(combat_manager)],
+                                          self.damage)
 
 
 class Flurry(Card):
@@ -34,12 +34,12 @@ class Flurry(Card):
         self.keywords = []
         self.rarity = 'common'
 
-    def on_play(self, game_manager):
+    def on_play(self, combat_manager):
         print('The Juggler uses Flurry.')
         for _ in range(self.damage_instances):
-            for enemy in game_manager.enemies[:-1]:
-                game_manager.player.deal_damage(enemy, self.damage)
-            if game_manager.deal_damage(game_manager.enemies[-1], self.damage):
+            for enemy in combat_manager.enemies[:-1]:
+                combat_manager.player.deal_damage(enemy, self.damage)
+            if combat_manager.deal_damage(combat_manager.player, combat_manager.enemies[-1], self.damage):
                 return True
 
 
@@ -50,19 +50,19 @@ class Knife(KnifeCard):
                          'Deal 3 damage to an enemy. Draw a card. Purge.',
                          0)
 
-    def on_play(self, game_manager):
+    def on_play(self, combat_manager):
         print('The Juggler uses Knife.')
-        if game_manager.deal_damage(game_manager.player,
-                                    game_manager.enemies[self.pick_target(game_manager)],
-                                    self.damage):
+        if combat_manager.deal_damage(combat_manager.player,
+                                      combat_manager.enemies[self.pick_target(combat_manager)],
+                                      self.damage):
             return True
-        return game_manager.mm.draw()
+        return combat_manager.mm.draw()
 
-    def on_trigger(self, game_manager):
+    def on_trigger(self, combat_manager):
         print('Knife triggered!')
-        return game_manager.deal_damage(game_manager.player,
-                                        game_manager.enemies[np.random.randint(len(game_manager.enemies))],
-                                        self.damage)
+        return combat_manager.deal_damage(combat_manager.player,
+                                          combat_manager.enemies[np.random.randint(len(combat_manager.enemies))],
+                                          self.damage)
 
 
 class HeadsYouLose(KnifeCard):
@@ -73,20 +73,20 @@ class HeadsYouLose(KnifeCard):
                          0)
         self.damage = 6
 
-    def on_play(self, game_manager):
+    def on_play(self, combat_manager):
         print('The Juggler uses ... Heads, you lose.')
-        if game_manager.deal_damage(game_manager.player,
-                                    game_manager.enemies[self.pick_target(game_manager)],
-                                    self.damage):
+        if combat_manager.deal_damage(combat_manager.player,
+                                      combat_manager.enemies[self.pick_target(combat_manager)],
+                                      self.damage):
             return True
-        if game_manager.mm.knife_trigger():
+        if combat_manager.mm.knife_trigger():
             return True
-        return game_manager.mm.draw()
+        return combat_manager.mm.draw()
 
-    def on_trigger(self, game_manager):
+    def on_trigger(self, combat_manager):
         print('... Heads, you lose triggered!')
-        if game_manager.deal_damage(game_manager.player,
-                                    game_manager.enemies[np.random.randint(len(game_manager.enemies))],
-                                    self.damage):
+        if combat_manager.deal_damage(combat_manager.player,
+                                      combat_manager.enemies[np.random.randint(len(combat_manager.enemies))],
+                                      self.damage):
             return True
-        return game_manager.mm.knife_trigger()
+        return combat_manager.mm.knife_trigger()

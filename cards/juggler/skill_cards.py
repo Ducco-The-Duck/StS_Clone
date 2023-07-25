@@ -15,9 +15,9 @@ class Block(Card):
         self.keywords = []
         self.rarity = 'common'
 
-    def on_play(self, game_manager):
+    def on_play(self, combat_manager):
         print('The Juggler uses Block.')
-        return game_manager.gain_armour(game_manager.player, self.armour)
+        return combat_manager.gain_armour(combat_manager.player, self.armour)
 
 
 class JuggleKnives(Card):
@@ -31,15 +31,15 @@ class JuggleKnives(Card):
         self.keywords = ['juggle']
         self.rarity = 'common'
 
-    def on_play(self, game_manager):
+    def on_play(self, combat_manager):
         print('The Juggler uses Juggle Knives.')
-        pos1 = np.random.randint(len(game_manager.draw_pile)) if game_manager.draw_pile else 0
-        pos2 = np.random.randint(len(game_manager.discard_pile)) if game_manager.discard_pile else 0
-        game_manager.draw_pile = game_manager.draw_pile[:pos1] + [Knife] + game_manager.draw_pile[pos1:]
-        game_manager.discard_pile = game_manager.discard_pile[:pos2] + [Knife] + game_manager.discard_pile[pos2:]
-        game_manager.mm.knives = True
-        game_manager.mm.juggle()
-        game_manager.mm.draw_by_type('attack')
+        pos1 = np.random.randint(len(combat_manager.draw_pile)) if combat_manager.draw_pile else 0
+        pos2 = np.random.randint(len(combat_manager.discard_pile)) if combat_manager.discard_pile else 0
+        combat_manager.draw_pile = combat_manager.draw_pile[:pos1] + [Knife] + combat_manager.draw_pile[pos1:]
+        combat_manager.discard_pile = combat_manager.discard_pile[:pos2] + [Knife] + combat_manager.discard_pile[pos2:]
+        combat_manager.mm.knives = True
+        combat_manager.mm.juggle()
+        combat_manager.mm.draw_by_type('attack')
 
 
 class TailsIWin(Card):
@@ -54,9 +54,9 @@ class TailsIWin(Card):
         self.keywords = []
         self.rarity = 'uncommon'
 
-    def on_play(self, game_manager):
+    def on_play(self, combat_manager):
         print('The Juggler uses Tails, I win...')
-        pos1 = np.random.randint(len(game_manager.draw_pile)) if game_manager.draw_pile else 0
-        game_manager.draw_pile = game_manager.draw_pile[:pos1] + [HeadsYouLose] + game_manager.draw_pile[pos1:]
-        game_manager.mm.knives = True
-        return game_manager.gain_armour(game_manager.player, self.armour)
+        pos1 = np.random.randint(len(combat_manager.draw_pile)) if combat_manager.draw_pile else 0
+        combat_manager.draw_pile = combat_manager.draw_pile[:pos1] + [HeadsYouLose] + combat_manager.draw_pile[pos1:]
+        combat_manager.mm.knives = True
+        return combat_manager.gain_armour(combat_manager.player, self.armour)
