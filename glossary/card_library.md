@@ -5,6 +5,10 @@
 *(1 mana, Attack)*  
 Deal 7 damage to an enemy.
 
+**Flurry**  
+*(1 mana, Attack)*  
+Deal 4 x 2 damage to all enemies.
+
 **Block**  
 *(1 mana, Skill)*  
 Gain 6 armour.
