@@ -1,4 +1,4 @@
-from cards.cards import AttackCard, SkillCard
+from cards.cards import *
 from random import shuffle
 
 
@@ -57,35 +57,20 @@ class GameManager:
 
             if action.cost <= self.mana:
                 self.mana -= action.cost
-                if 'targetable' in action.tags:
-                    if len(self.enemies) > 1:
-                        print('Choose a target')
-                        target = input('')
-                        while target not in map(lambda x: str(x), range(len(self.enemies) + 1)[1:]):
-                            print('Please choose a valid target (enter 1, 2, 3 ...)')
-                            target = input('')
-                        if action.effect(self.player, self.enemies, self, int(target) - 1):
-                            return True
-                    elif len(self.enemies) == 1:
-                        if action.effect(self.player, self.enemies, self, 0):
-                            return True
-                    else:
-                        raise "GameManager.enemies length is not positive"
-                else:
-                    if action.effect(self.player, self.enemies, self):
-                        return True
+                action.on_play(self)
 
                 # If chosen card is an Attack
-                if isinstance(action, AttackCard):
+                if 'attack' in action.types:
 
                     # Knife triggers
                     if self.are_knives_being_used:
                         self.knife_trigger()
 
-                if 'purge' in action.tags:
+                if 'purge' in action.keywords:
                     self.purge(play, self.hand)
                 else:
                     self.discard(play)
+
             else:
                 print('You dont have enough mana to play this.')
 
@@ -112,31 +97,41 @@ class GameManager:
             shuffle(self.draw_pile)
         card = self.draw_pile.pop(draw_index)
         self.hand.append(card)
-        if 'knife' in card().tags:
-            self.discard(-1)
-            self.draw()
+        if card().on_draw(self):
+            del card
+            return True
         del card
 
     def draw_by_type(self, card_type):
-        type_dict = {AttackCard: 'Attack', SkillCard: 'Skill'}
         for i, card in enumerate(reversed(self.draw_pile)):
-            if isinstance(card(), card_type):
-                self.draw(len(self.draw_pile) - 1 - i)
+            if card_type in card().types:
                 print('Drew a ' + card().name + '!')
+                if self.draw(len(self.draw_pile) - 1 - i):
+                    return True
                 return
-        print('You have no ' + type_dict[AttackCard] + 's in your draw pile.')
+        print('You have no ' + card_type + 's in your draw pile.')
 
     def discard(self, hand_index):
-        self.discard_pile.insert(0, self.hand.pop(hand_index))
+        card = self.hand.pop(hand_index)
+        self.discard_pile.insert(0, card)
+        if card().on_discard(self):
+            del card
+            return True
+        del card
 
     def purge(self, index, pile):
-        self.purge_pile.insert(0, pile.pop(index))
+        card = pile.pop(index)
+        self.purge_pile.insert(0, card)
+        if card().on_purge(self):
+            del card
+            return True
+        del card
 
     def juggle(self, num=1):
         if self.are_knives_being_used:
             print('Juggling ' + str(num) + ' knives.')
             for i, card in enumerate(reversed(self.draw_pile)):
-                if 'knife' in card().tags:
+                if isinstance(card(), KnifeCard):
                     self.discard_pile.insert(0, self.draw_pile.pop(len(self.draw_pile) - 1 - i))
                     num -= 1
                     if num == 0:
@@ -147,10 +142,10 @@ class GameManager:
 
     def knife_trigger(self):
         for i, card in enumerate(self.discard_pile):
-            if 'knife' in card().tags:
-                self.purge(i, self.discard_pile)
-                card().trigger_effect(self.player, self.enemies, self)
-                return
+            if isinstance(card(), KnifeCard):
+                if self.purge(i, self.discard_pile):
+                    return True
+                return card().on_trigger(self)
 
         print('You have no knives in your discard pile.')
 

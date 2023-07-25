@@ -1,7 +1,5 @@
 import inspect
 from unit import Unit
-import cards.base.attack_cards
-import cards.base.skill_cards
 import cards.juggler.attack_cards
 import cards.juggler.skill_cards
 

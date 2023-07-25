@@ -41,3 +41,5 @@ class Unit:
             print(self.name + ' Armour: ' + str(self.armour))
         if self.vuln_turns > 0:
             print('Vulnerable for ' + str(self.vuln_turns) + ' turns')
+        if self.strength > 0:
+            print(self.name + ' Strength: ' + str(self.strength))
