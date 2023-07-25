@@ -63,4 +63,5 @@ class KnifeCard(TargetableCard):
     def on_draw(self, game_manager):
         if game_manager.discard(-1):
             return True
-        return game_manager.draw()
+        if game_manager.draw():
+            return True
