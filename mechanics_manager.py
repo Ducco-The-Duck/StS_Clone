@@ -11,7 +11,7 @@ class MechanicsManager:
         self.knives = False
 
     def play(self, hand_index):
-        action = self.cm.hand[hand_index]()
+        action = self.cm.hand[hand_index]
         if action.cost <= self.cm.mana:
             self.cm.mana -= action.cost
             if action.on_play(self.cm):
@@ -49,7 +49,6 @@ class MechanicsManager:
         card = self.cm.draw_pile.pop(draw_index)
         if len(self.cm.hand) <= 10:
             self.cm.hand.append(card)
-            card = card()
             if card.on_draw(self.cm):
                 del card
                 return True
@@ -66,8 +65,8 @@ class MechanicsManager:
 
     def draw_by_type(self, card_type):
         for i, card in enumerate(reversed(self.cm.draw_pile)):
-            if card_type in card().types:
-                print('Drew a ' + card().name + '!')
+            if card_type in card.types:
+                print('Drew a ' + card.name + '!')
                 if self.draw(len(self.cm.draw_pile) - 1 - i):
                     return True
                 return
@@ -76,7 +75,6 @@ class MechanicsManager:
     def discard(self, hand_index):
         card = self.cm.hand.pop(hand_index)
         self.cm.discard_pile.insert(0, card)
-        card = card()
         if card.on_discard(self.cm):
             del card
             return True
@@ -85,7 +83,6 @@ class MechanicsManager:
     def purge(self, index, pile):
         card = pile.pop(index)
         self.cm.purge_pile.insert(0, card)
-        card = card()
         if card.on_purge(self.cm):
             del card
             return True
@@ -95,7 +92,7 @@ class MechanicsManager:
         if self.knives:
             print('Juggling ' + str(num) + ' knives.')
             for i, card in enumerate(reversed(self.cm.draw_pile)):
-                if isinstance(card(), KnifeCard):
+                if isinstance(card, KnifeCard):
                     self.cm.discard_pile.insert(0, self.cm.draw_pile.pop(len(self.cm.draw_pile) - 1 - i))
                     num -= 1
                     if num == 0:
@@ -106,10 +103,10 @@ class MechanicsManager:
 
     def knife_trigger(self):
         for i, card in enumerate(self.cm.discard_pile):
-            if isinstance(card(), KnifeCard):
+            if isinstance(card, KnifeCard):
                 if self.purge(i, self.cm.discard_pile):
                     return True
-                return card().on_trigger(self.cm)
+                return card.on_trigger(self.cm)
 
         print('You have no knives in your discard pile.')
 

@@ -39,8 +39,8 @@ class CombatManager:
             print('You have ' + str(self.mana) + ' mana.')
             hand_msg = 'Your hand is '
             for card in self.hand[:-1]:
-                hand_msg += card().name + ', '
-            hand_msg += self.hand[-1]().name + '.'
+                hand_msg += card.name + ', '
+            hand_msg += self.hand[-1].name + '.'
             print(hand_msg)
             print('Please enter a card position, or End Turn, or View Piles.')
 
@@ -63,7 +63,7 @@ class CombatManager:
 
     def end_turn(self):
         for _ in range(len(self.hand)):
-            self.mm.discard(0)
+            self.discard_pile.insert(0, self.hand.pop(0))
         self.player.vuln_turns = self.player.vuln_turns - 1 if self.player.vuln_turns > 0 else 0
 
         for enemy in self.enemies:

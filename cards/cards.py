@@ -19,16 +19,16 @@ class Card:
         self.keywords = []
         self.rarity = ''
 
-    def on_play(self, game_manager):
+    def on_play(self, combat_manager):
         pass
 
-    def on_draw(self, game_manager):
+    def on_draw(self, combat_manager):
         pass
 
-    def on_discard(self, game_manager):
+    def on_discard(self, combat_manager):
         pass
 
-    def on_purge(self, game_manager):
+    def on_purge(self, combat_manager):
         pass
 
 
@@ -38,15 +38,15 @@ class TargetableCard(Card):
         super().__init__(name, desc, cost)
 
     @staticmethod
-    def pick_target(game_manager):
-        if len(game_manager.enemies) > 1:
+    def pick_target(combat_manager):
+        if len(combat_manager.enemies) > 1:
             print('Choose a target')
             target = input('')
-            while target not in map(lambda x: str(x), range(len(game_manager.enemies) + 1)[1:]):
+            while target not in map(lambda x: str(x), range(len(combat_manager.enemies) + 1)[1:]):
                 print('Please choose a valid target (enter 1, 2, 3 ...)')
                 target = input('')
             return int(target) - 1
-        elif len(game_manager.enemies) == 1:
+        elif len(combat_manager.enemies) == 1:
             return 0
 
 
@@ -60,8 +60,11 @@ class KnifeCard(TargetableCard):
         self.keywords = ['purge']
         self.rarity = 'token'
 
-    def on_draw(self, game_manager):
-        if game_manager.mm.discard(-1):
+    def on_draw(self, combat_manager):
+        if combat_manager.mm.discard(-1):
             return True
-        if game_manager.mm.draw():
+        if combat_manager.mm.draw():
             return True
+
+    def on_trigger(self, combat_manager):
+        pass

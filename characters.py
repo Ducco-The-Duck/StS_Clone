@@ -34,16 +34,16 @@ class TheJuggler(Player):
     def __init__(self):
         super().__init__('The Juggler', 72, cards.juggler,
                          [
-                             cards.juggler.attack_cards.KnifeToss,
-                             cards.juggler.attack_cards.KnifeToss,
-                             cards.juggler.attack_cards.KnifeToss,
-                             cards.juggler.attack_cards.KnifeToss,
-                             cards.juggler.skill_cards.Block,
-                             cards.juggler.skill_cards.Block,
-                             cards.juggler.skill_cards.Block,
-                             cards.juggler.skill_cards.Block,
-                             cards.juggler.skill_cards.JuggleKnives,
-                             cards.juggler.skill_cards.TailsIWin
+                             cards.juggler.attack_cards.KnifeToss(),
+                             cards.juggler.attack_cards.KnifeToss(),
+                             cards.juggler.attack_cards.KnifeToss(),
+                             cards.juggler.attack_cards.KnifeToss(),
+                             cards.juggler.skill_cards.Block(),
+                             cards.juggler.skill_cards.Block(),
+                             cards.juggler.skill_cards.Block(),
+                             cards.juggler.skill_cards.Block(),
+                             cards.juggler.skill_cards.JuggleKnives(),
+                             cards.juggler.skill_cards.TailsIWin()
                          ])
 
 
