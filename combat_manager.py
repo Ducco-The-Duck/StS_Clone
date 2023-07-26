@@ -62,9 +62,9 @@ class CombatManager:
                 return True
 
     def end_turn(self):
+        self.player.vuln_turns = self.player.vuln_turns - 1 if self.player.vuln_turns > 0 else 0
         for _ in range(len(self.hand)):
             self.discard_pile.insert(0, self.hand.pop(0))
-        self.player.vuln_turns = self.player.vuln_turns - 1 if self.player.vuln_turns > 0 else 0
 
         for enemy in self.enemies:
             enemy.armour = 0
