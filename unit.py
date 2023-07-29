@@ -5,6 +5,7 @@ class Unit:
     
     def __init__(self, name, hp):
         self.name = name
+        self.max_hp = hp
         self.hp = hp
         self.armour = 0
         self.vuln_turns = 0

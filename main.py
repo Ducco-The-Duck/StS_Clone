@@ -1,4 +1,5 @@
-import enemies.normal as nmy
+import enemies.normal as normal
+import enemies.elite as elite
 from combat_manager import CombatManager
 from characters import TheJuggler
 
@@ -9,7 +10,7 @@ combat_manager = CombatManager(player)
 
 while True:
 
-    enemies = [nmy.Roostling(), nmy.Rooster()]
+    enemies = [elite.MutantBrawler()]
 
     combat_manager.encounter(enemies)
     if player.hp <= 0:

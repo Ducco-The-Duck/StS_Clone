@@ -25,7 +25,14 @@ class CombatManager:
 
     def start_turn(self):
 
+        for enemy in self.enemies:
+            enemy.on_start_turn(self)
+            if self.resolution_check():
+                return True
+
         self.player.vuln_turns = self.player.vuln_turns - 1 if self.player.vuln_turns > 0 else 0
+        self.player.weak_turns = self.player.weak_turns - 1 if self.player.weak_turns > 0 else 0
+        self.player.frail_turns = self.player.frail_turns - 1 if self.player.frail_turns > 0 else 0
         self.player.armour = 0
         for _ in range(5):
             self.mm.draw()
@@ -59,18 +66,24 @@ class CombatManager:
             if self.mm.play(pos):
                 return True
 
+            for enemy in self.enemies:
+                if enemy.on_player_action(self):
+                    return True
+
     def end_turn(self):
 
         for _ in range(len(self.hand)):
             self.discard_pile.insert(0, self.hand.pop(0))
 
         for enemy in self.enemies:
-            enemy.vuln_turns = enemy.vuln_turns - 1 if enemy.vuln_turns > 0 else 0
-            enemy.armour = 0
+            enemy.on_end_turn(self)
+            if self.resolution_check():
+                return True
 
     def enemies_turn(self):
         for enemy in self.enemies:
-            if enemy.take_action(self):
+            enemy.take_action(self)
+            if self.resolution_check():
                 return True
 
     # =============== Combat cycle functions end here =================
