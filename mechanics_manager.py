@@ -1,5 +1,6 @@
 from random import shuffle
 from cards.cards import *
+import numpy as np
 
 
 class MechanicsManager:
@@ -84,6 +85,15 @@ class MechanicsManager:
         card = pile.pop(index)
         self.cm.purge_pile.insert(0, card)
         if card.on_purge(self.cm):
+            del card
+            return True
+        del card
+
+    def manifest(self, card_class, pile, position):
+        pile_dict = {'draw': self.cm.draw_pile, 'hand': self.cm.hand, 'discard': self.cm.discard_pile}
+        card = card_class()
+        pile_dict[pile].insert(position, card)
+        if card.on_manifest(self.cm):
             del card
             return True
         del card

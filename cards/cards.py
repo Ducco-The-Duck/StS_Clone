@@ -31,6 +31,9 @@ class Card:
     def on_purge(self, combat_manager):
         pass
 
+    def on_manifest(self, combat_manager):
+        pass
+
 
 class TargetableCard(Card):
 

@@ -15,11 +15,11 @@ Gain 6 armour.
 
 **Juggle Knives**  
 *(1 mana, Skill)*  
-Add a knife to your draw and discard pile each, then juggle once and draw an attack.
+**Manifest** a knife in your draw and discard pile each, then juggle once and draw an attack.
 
 **Tails, I win...**  
 *(1 mana, Skill)*  
-Add a **... Heads, you lose** to your draw pile. Gain 6 armour. 
+**Manifest** a **... Heads, you lose** in your draw pile. Gain 6 armour. 
 
 ### Tokens
 **Knife**  

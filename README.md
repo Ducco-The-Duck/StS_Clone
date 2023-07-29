@@ -34,6 +34,12 @@ Vulnerable units take 50% more damage from attacks. Strength grants added damage
 ### Discarding Cards
 Discarding a card removes it from its pile and puts it at the top of the discard pile.
 
+### Purging Cards
+Purging a card removes it from the combat. It enters the purge pile.
+
+### Manifesting Cards
+Manifesting a card adds a card to your draw pile, hand or discard pile.
+
 ### Knives and Juggling
 Knives are 0 mana attacks which deal damage, draw a card and purge. When a knife is drawn, it is discarded and a card is drawn.
 When an attack is played, knives trigger from the discard pile, dealing damage to a random enemy. Knife damage counts as attack damage, even if triggered.

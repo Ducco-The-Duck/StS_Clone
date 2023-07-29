@@ -39,8 +39,8 @@ class Flurry(Card):
         for _ in range(self.damage_instances):
             for enemy in combat_manager.enemies[:-1]:
                 combat_manager.player.deal_damage(enemy, self.damage)
-            if combat_manager.deal_damage(combat_manager.player, combat_manager.enemies[-1], self.damage):
-                return True
+        if combat_manager.deal_damage(combat_manager.player, combat_manager.enemies[-1], self.damage):
+            return True
 
 
 class Knife(KnifeCard):

@@ -25,9 +25,7 @@ class CombatManager:
 
     def start_turn(self):
 
-        for enemy in self.enemies:
-            enemy.vuln_turns = enemy.vuln_turns - 1 if enemy.vuln_turns > 0 else 0
-
+        self.player.vuln_turns = self.player.vuln_turns - 1 if self.player.vuln_turns > 0 else 0
         self.player.armour = 0
         for _ in range(5):
             self.mm.draw()
@@ -62,11 +60,12 @@ class CombatManager:
                 return True
 
     def end_turn(self):
-        self.player.vuln_turns = self.player.vuln_turns - 1 if self.player.vuln_turns > 0 else 0
+
         for _ in range(len(self.hand)):
             self.discard_pile.insert(0, self.hand.pop(0))
 
         for enemy in self.enemies:
+            enemy.vuln_turns = enemy.vuln_turns - 1 if enemy.vuln_turns > 0 else 0
             enemy.armour = 0
 
     def enemies_turn(self):
@@ -76,18 +75,24 @@ class CombatManager:
 
     # =============== Combat cycle functions end here =================
 
-    def deal_damage(self, dealer, dealee, damage):
-        dealer.deal_damage(dealee, damage)
+    def deal_damage(self, dealer, target, damage):
+        dealer.deal_damage(target, damage)
         return self.resolution_check()
 
-    def gain_armour(self, unit, armour):
-        unit.gain_armour(armour)
+    def deal_armour(self, dealer, target, armour):
+        dealer.deal_armour(target, armour)
 
-    def apply_vuln(self, unit, duration):
-        unit.increase_vuln(duration)
+    def self_armour(self, armour):
+        self.player.self_armour(armour)
 
-    def grant_str(self, unit, strength):
-        unit.gain_str(strength)
+    def deal_vuln(self, dealer, target, duration):
+        dealer.deal_vuln(target, duration)
+
+    def ally_vuln(self, dealer, target, duration):
+        dealer.ally_vuln(target, duration)
+
+    def deal_str(self, dealer, target, strength):
+        dealer.deal_str(target, strength)
 
     # =========================== Interaction functions end here ===================
 
