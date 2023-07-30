@@ -42,20 +42,16 @@ class CombatManager:
         while True:
             self.print_stats()
             print('You have ' + str(self.mana) + ' mana.')
-            hand_msg = 'Your hand is '
-            for card in self.hand[:-1]:
-                hand_msg += card.name + ', '
-            hand_msg += self.hand[-1].name + '.'
-            print(hand_msg)
+            print(f'Hand: {list(map(lambda x: x.name, self.hand))}')
             print('Please enter a card position, or End Turn, or View Piles.')
 
             pos = input('')
             while pos not in list(map(lambda x: str(x), range(len(self.hand) + 1)[1:])) + ['End Turn']:
                 if pos == 'View Piles':
-                    print(self.draw_pile)
-                    print(self.hand)
-                    print(self.discard_pile)
-                    print(self.purge_pile)
+                    print(f'Draw Pile: {list(map(lambda x: x.name, self.draw_pile))}')
+                    print(f'Hand: {list(map(lambda x: x.name, self.hand))}')
+                    print(f'Discard Pile: {list(map(lambda x: x.name, self.discard_pile))}')
+                    print(f'Purge Pile: {list(map(lambda x: x.name, self.purge_pile))}')
                 else:
                     print('Please enter card position, or End Turn, or View Piles.')
                 pos = input('')

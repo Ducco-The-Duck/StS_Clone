@@ -18,7 +18,7 @@ Current Functionality:
 
 Features to be added:
 1. ~~Hand size limit (important)~~
-2. Viewing deck, discard pile, draw pile etc. (important)
+2. ~~Viewing deck, discard pile, draw pile etc. (important)~~
 3. Non combat elements of the game
 4. More cards
 5. More characters
