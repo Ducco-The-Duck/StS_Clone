@@ -13,6 +13,10 @@ Deal 4 x 2 damage to all enemies.
 *(1 mana, Skill)*  
 Gain 6 armour.
 
+**Counterstep**  
+*(2 mana, Skill)*  
+Gain 11 armour. Trigger a knife.
+
 **Juggle Knives**  
 *(1 mana, Skill)*  
 **Manifest** a knife in your draw and discard pile each, then juggle once and draw an attack.

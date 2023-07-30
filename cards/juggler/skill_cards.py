@@ -20,6 +20,44 @@ class Block(Card):
         return combat_manager.self_armour(self.armour)
 
 
+class Counterstep(Card):
+
+    def __init__(self):
+        super().__init__('Counterstep',
+                         'Gain 11 armour. Trigger a knife.',
+                         2)
+        self.armour = 11
+        self.tags = []
+        self.types = ['skill']
+        self.keywords = []
+        self.rarity = 'common'
+
+    def on_play(self, combat_manager):
+        print('The Juggler uses Block.')
+        if combat_manager.self_armour(self.armour):
+            return True
+        return combat_manager.mm.knife_trigger()
+
+
+# class Conceal(Card):
+#
+#     def __init__(self):
+#         super().__init__('Conceal',
+#                          'Conceal yourself. End your turn. Draw 1 less and gain 1 less mana next turn.',
+#                          1)
+#         self.armour = 8
+#         self.tags = []
+#         self.types = ['skill']
+#         self.keywords = []
+#         self.rarity = 'common'
+#
+#     def on_play(self, combat_manager):
+#         print('The Juggler uses Block.')
+#         if combat_manager.self_armour(self.armour):
+#             return True
+#         return combat_manager.mm.knife_trigger()
+
+
 class JuggleKnives(Card):
     
     def __init__(self):
